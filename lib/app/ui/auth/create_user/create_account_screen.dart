@@ -2,7 +2,7 @@ import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/core/data/models/user_model.dart';
 import 'package:easy_stock/app/core/ui/components/dialog_feedback.dart';
 import 'package:easy_stock/app/ui/company/screens/create_company/create_company_screen.dart';
-import 'package:easy_stock/app/ui/user/screens/create_user/cubit/create_user_cubit.dart';
+import 'package:easy_stock/app/ui/auth/create_user/cubit/create_user_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

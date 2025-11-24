@@ -1,10 +1,12 @@
+import 'package:easy_stock/app/core/data/models/product_model.dart';
+
 class StockMovement {
   final int id;
   final String type;
   final DateTime createdAt;
   final int quantity;
   final int companyId;
-  final int productId;
+  final Product product;
   final int userId;
 
   StockMovement({
@@ -13,7 +15,7 @@ class StockMovement {
     required this.createdAt,
     required this.quantity,
     required this.companyId,
-    required this.productId,
+    required this.product,
     required this.userId,
   });
 
@@ -24,7 +26,9 @@ class StockMovement {
       createdAt: DateTime.parse(json['created_at']),
       quantity: json['quantity'],
       companyId: json['company_id'],
-      productId: json['product_id'],
+      product: Product.fromJson(
+        json['product'],
+      ),
       userId: json['user_id'],
     );
   }
@@ -36,7 +40,7 @@ class StockMovement {
       'created_at': createdAt.toIso8601String(),
       'quantity': quantity,
       'company_id': companyId,
-      'product_id': productId,
+      'product': product,
       'user_id': userId,
     };
   }
@@ -47,7 +51,7 @@ class StockMovement {
     DateTime? createdAt,
     int? quantity,
     int? companyId,
-    int? productId,
+    Product? product,
     int? userId,
   }) {
     return StockMovement(
@@ -56,7 +60,7 @@ class StockMovement {
       createdAt: createdAt ?? this.createdAt,
       quantity: quantity ?? this.quantity,
       companyId: companyId ?? this.companyId,
-      productId: productId ?? this.productId,
+      product: product ?? this.product,
       userId: userId ?? this.userId,
     );
   }

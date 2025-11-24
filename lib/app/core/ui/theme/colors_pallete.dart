@@ -14,4 +14,6 @@ class ColorsPallete {
   static Color darkBackground = Color.fromARGB(255, 20, 20, 20);
 
   static Color colorError = const Color.fromARGB(240, 241, 48, 96);
+
+  static Color darkSecondary = Color.fromARGB(255, 35, 35, 35);
 }

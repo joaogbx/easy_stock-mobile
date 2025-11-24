@@ -23,10 +23,13 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
-    final newToken = response.data['data']['token'];
+    final data = response.data['data'];
 
-    if (newToken != null) {
-      await _iSecureStorageService.write('token', newToken);
+    if (data is Map<String, dynamic> && data.containsKey('token')) {
+      final newToken = data['token'];
+      if (newToken != null) {
+        await _iSecureStorageService.write('token', newToken);
+      }
     }
 
     super.onResponse(response, handler);

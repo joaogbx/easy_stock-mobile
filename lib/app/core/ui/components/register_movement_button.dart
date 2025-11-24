@@ -1,4 +1,4 @@
-import 'package:easy_stock/app/ui/employee/register_movement/register_movement.dart';
+import 'package:easy_stock/app/ui/employee/register_movement/register_movement_bottom_sheet.dart';
 import 'package:easy_stock/app/core/enums/register_mode.dart';
 import 'package:flutter/material.dart';
 
@@ -33,14 +33,7 @@ class RegisterMovementButton extends StatelessWidget {
             : Colors.green,
         minimumSize: Size(double.infinity, 80),
       ),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => RegisterMovement(registerMode: registerMode),
-          ),
-        );
-      },
+      onPressed: onTap,
     );
   }
 }

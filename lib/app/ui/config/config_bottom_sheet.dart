@@ -1,6 +1,6 @@
 import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/core/cubit/app_cubit.dart';
-import 'package:easy_stock/app/ui/user/screens/login/login_screen.dart';
+import 'package:easy_stock/app/ui/auth/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
 // Definições de cor Literais e Constantes para Autonomia

@@ -10,7 +10,7 @@ import 'package:easy_stock/app/ui/company/screens/create_company/steps/company_d
 import 'package:easy_stock/app/ui/company/screens/create_company/steps/company_explication_step.dart';
 import 'package:easy_stock/app/ui/company/screens/create_company/steps/company_welcome_step.dart';
 
-import 'package:easy_stock/app/ui/user/screens/login/login_screen.dart';
+import 'package:easy_stock/app/ui/auth/login/login_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

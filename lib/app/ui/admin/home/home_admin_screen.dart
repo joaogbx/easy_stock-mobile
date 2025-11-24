@@ -1,7 +1,8 @@
 import 'package:easy_stock/app/ui/components/stat_card.dart';
 import 'package:easy_stock/app/ui/admin/product_management_screen/product_management_screen.dart';
 import 'package:easy_stock/app/core/ui/components/card_action_widget.dart';
-import 'package:easy_stock/app/core/ui/screen/historical_screen.dart';
+import 'package:easy_stock/app/core/ui/screen/historical_screen/historical_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeAdmin extends StatelessWidget {
@@ -122,6 +123,7 @@ class HomeAdmin extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
+                      allowSnapshotting: false,
                       builder: (context) => ProductManagementScreen(),
                     ),
                   );

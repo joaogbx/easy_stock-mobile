@@ -1,5 +1,5 @@
 import 'package:easy_stock/app/core/ui/theme/colors_pallete.dart';
-import 'package:easy_stock/app/ui/user/screens/login/login_screen.dart';
+import 'package:easy_stock/app/ui/auth/login/login_screen.dart';
 import 'package:easy_stock/constants.dart';
 import 'package:flutter/material.dart';
 
