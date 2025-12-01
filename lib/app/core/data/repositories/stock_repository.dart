@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_stock/app/core/data/datasource/stock_datasource.dart';
 import 'package:easy_stock/app/core/data/models/stock_movement.dart';
 import 'package:easy_stock/app/core/domain/repositories/i_stock_reposittory.dart';
+import 'package:easy_stock/app/core/enums/register_mode.dart';
 import 'package:easy_stock/app/core/result/result.dart';
 import 'package:injectable/injectable.dart';
 
@@ -15,15 +16,20 @@ class StockRepository implements IStockRepository {
   Future<Result> createMovement({
     required int productId,
     required int quantity,
+    required RegisterMode registerMode,
   }) async {
     try {
+      final type = registerMode == RegisterMode.stockIn
+          ? 'STOCK_IN'
+          : 'STOCK_OUT';
       final payload = {
-        'product_id': productId,
         'quantity': quantity,
+        'type': type,
       };
 
       final response = await _stockDatasource.createMovement(
         payload: payload,
+        productId: productId,
       );
 
       return Result.success(StockMovement.fromJson(response['data']));

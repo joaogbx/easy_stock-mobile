@@ -1,6 +1,7 @@
 import 'package:easy_stock/app/core/data/models/product_model.dart';
 import 'package:easy_stock/app/core/domain/repositories/i_stock_reposittory.dart';
 import 'package:easy_stock/app/core/domain/usecases/get_product_list_uc.dart';
+import 'package:easy_stock/app/core/enums/register_mode.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -35,11 +36,13 @@ class RegisterMovementCubit extends Cubit<RegisterMovementState> {
     int productId,
     String quantity,
     Function() onSuccess,
+    RegisterMode registerMode,
   ) async {
     emit(state.copyWith(loading: true, errorMessage: null));
     final response = await _iStockRepository.createMovement(
       productId: productId,
       quantity: int.parse(quantity),
+      registerMode: registerMode,
     );
 
     if (response.isError) {
@@ -49,5 +52,6 @@ class RegisterMovementCubit extends Cubit<RegisterMovementState> {
     if (response.isSuccess) {
       onSuccess();
     }
+    emit(state.copyWith(loading: false));
   }
 }

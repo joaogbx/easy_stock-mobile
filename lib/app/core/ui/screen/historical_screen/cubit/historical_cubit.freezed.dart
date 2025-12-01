@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$HistoricalState {
 
- bool get loading; List<StockMovement>? get stockMovements; String? get errorMessage;
+ bool get loading; List<StockMovement> get stockMovements; String? get errorMessage;
 /// Create a copy of HistoricalState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,7 +45,7 @@ abstract mixin class $HistoricalStateCopyWith<$Res>  {
   factory $HistoricalStateCopyWith(HistoricalState value, $Res Function(HistoricalState) _then) = _$HistoricalStateCopyWithImpl;
 @useResult
 $Res call({
- bool loading, List<StockMovement>? stockMovements, String? errorMessage
+ bool loading, List<StockMovement> stockMovements, String? errorMessage
 });
 
 
@@ -62,11 +62,11 @@ class _$HistoricalStateCopyWithImpl<$Res>
 
 /// Create a copy of HistoricalState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? loading = null,Object? stockMovements = freezed,Object? errorMessage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? loading = null,Object? stockMovements = null,Object? errorMessage = freezed,}) {
   return _then(_self.copyWith(
 loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
-as bool,stockMovements: freezed == stockMovements ? _self.stockMovements : stockMovements // ignore: cast_nullable_to_non_nullable
-as List<StockMovement>?,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as bool,stockMovements: null == stockMovements ? _self.stockMovements : stockMovements // ignore: cast_nullable_to_non_nullable
+as List<StockMovement>,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -152,7 +152,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool loading,  List<StockMovement>? stockMovements,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool loading,  List<StockMovement> stockMovements,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HistoricalState() when $default != null:
 return $default(_that.loading,_that.stockMovements,_that.errorMessage);case _:
@@ -173,7 +173,7 @@ return $default(_that.loading,_that.stockMovements,_that.errorMessage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool loading,  List<StockMovement>? stockMovements,  String? errorMessage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool loading,  List<StockMovement> stockMovements,  String? errorMessage)  $default,) {final _that = this;
 switch (_that) {
 case _HistoricalState():
 return $default(_that.loading,_that.stockMovements,_that.errorMessage);case _:
@@ -193,7 +193,7 @@ return $default(_that.loading,_that.stockMovements,_that.errorMessage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool loading,  List<StockMovement>? stockMovements,  String? errorMessage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool loading,  List<StockMovement> stockMovements,  String? errorMessage)?  $default,) {final _that = this;
 switch (_that) {
 case _HistoricalState() when $default != null:
 return $default(_that.loading,_that.stockMovements,_that.errorMessage);case _:
@@ -208,17 +208,15 @@ return $default(_that.loading,_that.stockMovements,_that.errorMessage);case _:
 
 
 class _HistoricalState implements HistoricalState {
-   _HistoricalState({this.loading = false, final  List<StockMovement>? stockMovements = null, this.errorMessage}): _stockMovements = stockMovements;
+   _HistoricalState({this.loading = false, final  List<StockMovement> stockMovements = const [], this.errorMessage}): _stockMovements = stockMovements;
   
 
 @override@JsonKey() final  bool loading;
- final  List<StockMovement>? _stockMovements;
-@override@JsonKey() List<StockMovement>? get stockMovements {
-  final value = _stockMovements;
-  if (value == null) return null;
+ final  List<StockMovement> _stockMovements;
+@override@JsonKey() List<StockMovement> get stockMovements {
   if (_stockMovements is EqualUnmodifiableListView) return _stockMovements;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(value);
+  return EqualUnmodifiableListView(_stockMovements);
 }
 
 @override final  String? errorMessage;
@@ -253,7 +251,7 @@ abstract mixin class _$HistoricalStateCopyWith<$Res> implements $HistoricalState
   factory _$HistoricalStateCopyWith(_HistoricalState value, $Res Function(_HistoricalState) _then) = __$HistoricalStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool loading, List<StockMovement>? stockMovements, String? errorMessage
+ bool loading, List<StockMovement> stockMovements, String? errorMessage
 });
 
 
@@ -270,11 +268,11 @@ class __$HistoricalStateCopyWithImpl<$Res>
 
 /// Create a copy of HistoricalState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? loading = null,Object? stockMovements = freezed,Object? errorMessage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? loading = null,Object? stockMovements = null,Object? errorMessage = freezed,}) {
   return _then(_HistoricalState(
 loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
-as bool,stockMovements: freezed == stockMovements ? _self._stockMovements : stockMovements // ignore: cast_nullable_to_non_nullable
-as List<StockMovement>?,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as bool,stockMovements: null == stockMovements ? _self._stockMovements : stockMovements // ignore: cast_nullable_to_non_nullable
+as List<StockMovement>,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

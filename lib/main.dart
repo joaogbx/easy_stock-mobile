@@ -49,9 +49,7 @@ class _WrapperState extends State<Wrapper> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: HomeAdmin(
-        onToggle: () {},
-      ),
+      body: LoginScreen(),
       //HomeEmploye()
     );
   }

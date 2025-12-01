@@ -122,6 +122,7 @@ class _RegisterMovementState extends State<RegisterMovement> {
                                 _productSelected!.id,
                                 _quantityController.text,
                                 onSuccess,
+                                widget.registerMode,
                               );
                             }
 

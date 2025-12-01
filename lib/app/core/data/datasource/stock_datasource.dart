@@ -10,9 +10,13 @@ class StockDatasource {
   final Dio _dioHttp;
 
   Future<Map<String, dynamic>> createMovement({
+    required int productId,
     required Map<String, dynamic> payload,
   }) async {
-    final result = await _dioHttp.post('/stock', data: payload);
+    final result = await _dioHttp.post(
+      '/stock/movements/$productId',
+      data: payload,
+    );
 
     return jsonDecode(result.toString());
   }

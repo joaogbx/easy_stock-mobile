@@ -39,6 +39,7 @@ class CreateCompanyCubit extends Cubit<CreateCompanyState> {
     }
 
     if (result.isSuccess) {
+      print(result);
       final company = result.data as Company;
       final payload = {'company_id': company.id};
       final updateUser = await _iUserRepository.updateUser(
