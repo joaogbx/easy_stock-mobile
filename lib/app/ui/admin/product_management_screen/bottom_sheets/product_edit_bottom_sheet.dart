@@ -1,4 +1,5 @@
 import 'package:easy_stock/app/core/data/models/product_model.dart';
+import 'package:easy_stock/app/core/ui/components/button_widget.dart';
 import 'package:easy_stock/app/core/ui/components/dialog_feedback.dart';
 import 'package:easy_stock/app/core/ui/components/input_select.dart';
 import 'package:easy_stock/app/core/ui/theme/colors_pallete.dart';
@@ -7,42 +8,49 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProductAddBottomSheet extends StatefulWidget {
-  final List<Product> products;
-  final Function(String name, String quantity, String unitMeasure)
-  productAddCallBack;
-  const ProductAddBottomSheet({
+class ProductEditBottomSheet extends StatefulWidget {
+  final Product product;
+  final Function() refresh;
+  const ProductEditBottomSheet({
     super.key,
-    required this.products,
-    required this.productAddCallBack,
+    required this.product,
+    required this.refresh,
   });
   @override
-  State<ProductAddBottomSheet> createState() => _ProductAddBottomSheetState();
+  State<ProductEditBottomSheet> createState() => _ProductEditBottomSheetState();
 }
 
-class _ProductAddBottomSheetState extends State<ProductAddBottomSheet> {
+class _ProductEditBottomSheetState extends State<ProductEditBottomSheet> {
   final _nameController = TextEditingController();
-  final _quantityController = TextEditingController();
-
   String? measureUnitSelected;
+  void initState() {
+    super.initState();
+    _nameController.text = widget.product.name;
+    measureUnitSelected = widget.product.measureUnit;
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = context.watch<ProductManagementCubit>().state;
     final loading = state.loading;
-
     return BlocListener<ProductManagementCubit, ProductManagementState>(
       listenWhen: (previous, current) => previous.loading && !current.loading,
       listener: (context, state) {
-        if (state.errorMessage == null) {
-          Navigator.of(context).pop(true);
+        // CORREÇÃO AQUI: Capturamos o Navigator do contexto específico do BottomSheet
+        final navigator = Navigator.of(context);
 
+        if (state.errorMessage == null) {
+          widget.refresh();
+          if (navigator.canPop())
+            navigator.pop(); // Fecha o BottomSheet com segurança
           showSnackBarFeedback(
             context: context,
-            message: 'Produto adicionado com sucesso!',
+            message: "Produto editado com sucesso!",
             feedbackType: FeedbackType.success,
           );
         } else {
-          Navigator.of(context).pop();
+          if (navigator.canPop())
+            navigator.pop(); // Fecha o BottomSheet com segurança
           showSnackBarFeedback(
             context: context,
             message: state.errorMessage!,
@@ -63,7 +71,7 @@ class _ProductAddBottomSheetState extends State<ProductAddBottomSheet> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Text(
-                'Adicionar Novo Produto',
+                'Editar produto',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -83,9 +91,8 @@ class _ProductAddBottomSheetState extends State<ProductAddBottomSheet> {
               ),
               const SizedBox(height: 20),
               CustomSelectInput<String>(
-                labelText: 'Selecione uma unidade de medida',
+                labelText: 'Unidade de medida',
                 items: const ['Unidade', 'Litro', 'Kg'],
-
                 value: measureUnitSelected,
                 itemLabelBuilder: (product) {
                   return product;
@@ -98,47 +105,22 @@ class _ProductAddBottomSheetState extends State<ProductAddBottomSheet> {
                 prefixIcon: Icons.straighten,
               ),
               const SizedBox(height: 20),
-              TextFormField(
-                controller: _quantityController,
-                keyboardType: TextInputType.number,
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  labelText: 'Quantidade em Estoque',
-                  labelStyle: TextStyle(color: Colors.white),
-                  hintText: 'Ex: 150',
-                ),
-              ),
               const SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: loading
-                    ? null
-                    : () {
-                        final String name = _nameController.text;
-                        final String quantity = _quantityController.text;
 
-                        widget.productAddCallBack(
-                          name,
-                          quantity,
-                          measureUnitSelected!,
-                        );
-                      },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: ColorsPallete.primaryPurple,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: loading
-                    ? CircularProgressIndicator()
-                    : Text(
-                        'ADICIONAR',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
+              ButtonWidget(
+                onPressed: () {
+                  final form = {
+                    'name': _nameController.text,
+                    'measure_unit': measureUnitSelected,
+                  };
+
+                  context.read<ProductManagementCubit>().productEdit(
+                    widget.product.id,
+                    form,
+                  );
+                },
+                loading: loading,
+                text: 'Editar',
               ),
             ],
           ),

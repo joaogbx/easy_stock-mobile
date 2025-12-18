@@ -64,7 +64,7 @@ class ProductRepository implements IProductRepository {
         payload: payload,
       );
 
-      return Result.success(Product.fromJson(response['data']['product']));
+      return Result.success(Product.fromJson(response['data']));
     } on DioException catch (error) {
       return Result.error('Erro ao atualizar produto, ${error.response}');
     } catch (error) {

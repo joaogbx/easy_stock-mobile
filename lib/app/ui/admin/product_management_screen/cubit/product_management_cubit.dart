@@ -33,23 +33,54 @@ class ProductManagementCubit extends Cubit<ProductManagementState> {
     String quantity,
     String unitMeasure,
   ) async {
-    emit(state.copyWith(loading: true));
+    emit(state.copyWith(loading: true, errorMessage: null));
     final payload = {
       'name': name,
-      'quantity': quantity,   
+      'quantity': quantity,
       'measure_unit': unitMeasure,
     };
     final result = await _iProductRepository.createProduct(payload: payload);
 
-    if (result.isSuccess) {}
     if (result.isError) {
       emit(
         state.copyWith(
           errorMessage: result.error,
         ),
       );
-      print(result.error);
     }
+    emit(state.copyWith(loading: false));
+  }
+
+  void productEdit(int productId, Map<String, dynamic> form) async {
+    emit(state.copyWith(loading: true, errorMessage: null));
+    final result = await _iProductRepository.updateProduct(
+      productId: productId,
+      payload: form,
+    );
+
+    if (result.isError) {
+      emit(
+        state.copyWith(
+          errorMessage: result.error,
+        ),
+      );
+    }
+
+    emit(state.copyWith(loading: false));
+  }
+
+  void productDelete(int productId) async {
+    emit(state.copyWith(loading: true, errorMessage: null));
+    final result = await _iProductRepository.deleteProduct(productId);
+
+    if (result.isError) {
+      emit(
+        state.copyWith(
+          errorMessage: result.error,
+        ),
+      );
+    }
+
     emit(state.copyWith(loading: false));
   }
 }
