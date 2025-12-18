@@ -10,10 +10,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductEditBottomSheet extends StatefulWidget {
   final Product product;
+  final Function() refreshProducts;
 
   const ProductEditBottomSheet({
     super.key,
     required this.product,
+    required this.refreshProducts,
   });
   @override
   State<ProductEditBottomSheet> createState() => _ProductEditBottomSheetState();
@@ -43,6 +45,7 @@ class _ProductEditBottomSheetState extends State<ProductEditBottomSheet> {
             message: 'Produto editado com sucesso!',
             feedbackType: FeedbackType.success,
           );
+          widget.refreshProducts();
         } else {
           Navigator.of(context).pop();
           showSnackBarFeedback(

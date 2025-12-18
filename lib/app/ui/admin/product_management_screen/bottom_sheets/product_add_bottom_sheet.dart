@@ -8,8 +8,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductAddBottomSheet extends StatefulWidget {
+  final Function() refreshProducts;
   const ProductAddBottomSheet({
     super.key,
+    required this.refreshProducts,
   });
   @override
   State<ProductAddBottomSheet> createState() => _ProductAddBottomSheetState();
@@ -37,6 +39,7 @@ class _ProductAddBottomSheetState extends State<ProductAddBottomSheet> {
             message: 'Produto adicionado com sucesso!',
             feedbackType: FeedbackType.success,
           );
+          widget.refreshProducts();
         } else {
           Navigator.of(context).pop();
           showSnackBarFeedback(
