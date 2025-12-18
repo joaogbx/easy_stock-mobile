@@ -4,7 +4,6 @@ abstract class IProductRepository {
   Future<Result> getAllProducts();
 
   Future<Result> createProduct({
-    required int companyId,
     required Map<String, dynamic> payload,
   });
 

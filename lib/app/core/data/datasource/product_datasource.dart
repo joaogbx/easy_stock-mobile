@@ -16,15 +16,9 @@ class ProductDatasource {
   }
 
   Future<Map<String, dynamic>> createProduct({
-    required int companyId,
     required Map<String, dynamic> payload,
   }) async {
-    final payloadWithCompany = {
-      ...payload,
-      'company_id': companyId,
-    };
-
-    final result = await _dioHttp.post('/product', data: payloadWithCompany);
+    final result = await _dioHttp.post('/product', data: payload);
 
     return jsonDecode(result.toString());
   }

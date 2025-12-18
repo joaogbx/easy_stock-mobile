@@ -32,25 +32,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'App Estoque Fácil',
       theme: getAppTheme(),
-      home: Wrapper(),
-    );
-  }
-}
-
-class Wrapper extends StatefulWidget {
-  @override
-  createState() => _WrapperState();
-}
-
-class _WrapperState extends State<Wrapper> {
-  // Alterado para iniciar como Funcionário para fins de teste rápido
-  bool isAdmin = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: LoginScreen(),
-      //HomeEmploye()
+      home: LoginScreen(),
     );
   }
 }

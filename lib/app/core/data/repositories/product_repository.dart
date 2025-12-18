@@ -34,18 +34,16 @@ class ProductRepository implements IProductRepository {
 
   @override
   Future<Result> createProduct({
-    required int companyId,
     required Map<String, dynamic> payload,
   }) async {
     try {
       // Converte o DTO para o mapa que será enviado no payload
 
       final response = await _productDatasource.createProduct(
-        companyId: companyId,
         payload: payload,
       );
 
-      return Result.success(Product.fromJson(response['data']['product']));
+      return Result.success(Product.fromJson(response['data']));
     } on DioException catch (error) {
       return Result.error('Erro ao criar produto, ${error.response}');
     } catch (error) {

@@ -18,10 +18,10 @@ class HistoricalCubit extends Cubit<HistoricalState> {
   }
 
   void initData() {
-    gettAllStockMovements();
+    getAllStockMovements();
   }
 
-  void gettAllStockMovements() async {
+  void getAllStockMovements() async {
     emit(state.copyWith(loading: true));
     final query = {'mine': true};
     final response = await _iStockRepository.gettAllStockMovements(

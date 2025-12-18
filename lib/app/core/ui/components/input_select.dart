@@ -61,12 +61,16 @@ class CustomSelectInput<T> extends StatelessWidget {
         decoration: _getDecoration(),
         child: Row(
           children: [
-            Icon(prefixIcon),
+            Icon(
+              prefixIcon,
+              color: ColorsPallete.primaryPurple,
+            ),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
                 displayText,
                 style: TextStyle(
+                  color: ColorsPallete.secondaryPurple,
                   fontSize: 16,
                 ),
                 overflow: TextOverflow.ellipsis,

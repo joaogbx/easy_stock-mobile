@@ -51,6 +51,8 @@ import 'package:easy_stock/app/core/network/network_module.dart' as _i323;
 import 'package:easy_stock/app/core/ui/screen/historical_screen/cubit/historical_cubit.dart'
     as _i143;
 import 'package:easy_stock/app/core/utils/auth_interceptor.dart' as _i976;
+import 'package:easy_stock/app/ui/admin/product_management_screen/cubit/product_management_cubit.dart'
+    as _i633;
 import 'package:easy_stock/app/ui/auth/create_user/cubit/create_user_cubit.dart'
     as _i384;
 import 'package:easy_stock/app/ui/auth/login/cubit/auth_cubit.dart' as _i393;
@@ -102,6 +104,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i594.GetProductListUc>(
       () => _i594.GetProductListUc(gh<_i778.IProductRepository>()),
+    );
+    gh.factory<_i633.ProductManagementCubit>(
+      () => _i633.ProductManagementCubit(gh<_i778.IProductRepository>()),
     );
     gh.factory<_i42.StockCubit>(
       () => _i42.StockCubit(gh<_i778.IProductRepository>()),

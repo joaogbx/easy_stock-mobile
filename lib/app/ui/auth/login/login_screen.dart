@@ -2,6 +2,7 @@ import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/core/cubit/app_cubit.dart';
 import 'package:easy_stock/app/core/infra/storage/secure_storage_service.dart';
 import 'package:easy_stock/app/core/ui/components/dialog_feedback.dart';
+import 'package:easy_stock/app/ui/admin/home/home_admin_screen.dart';
 import 'package:easy_stock/app/ui/company/screens/create_company/create_company_screen.dart';
 import 'package:easy_stock/app/ui/employee/home/home_employee.dart';
 import 'package:easy_stock/app/ui/auth/login/cubit/auth_cubit.dart';
@@ -53,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                        builder: (context) => HomeEmployee(onToggle: () {}),
+                        builder: (context) => HomeAdmin(),
                       ),
                       (Route<dynamic> route) => false,
                     );
@@ -136,7 +137,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () async {
-                              print('teste');
                               //  if (_formKey.currentState!.validate()) {
                               context.read<AuthCubit>().autenticate(
                                 email: emailController.text,

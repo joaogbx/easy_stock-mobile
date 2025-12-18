@@ -36,6 +36,7 @@ class RegisterMovementCubit extends Cubit<RegisterMovementState> {
     int productId,
     String quantity,
     Function() onSuccess,
+    Function() onError,
     RegisterMode registerMode,
   ) async {
     emit(state.copyWith(loading: true, errorMessage: null));
@@ -46,11 +47,15 @@ class RegisterMovementCubit extends Cubit<RegisterMovementState> {
     );
 
     if (response.isError) {
-      emit(state.copyWith(errorMessage: response.error));
+      emit(
+        state.copyWith(errorMessage: response.error, loading: false),
+      ); //
+      onError(); // Chame onError() se houver erro
     }
 
     if (response.isSuccess) {
-      onSuccess();
+      onSuccess(); // Chame onSuccess() se houver sucesso
+      // O onSuccess() cuidará de fechar a tela e exibir o SnackBar de sucesso.
     }
     emit(state.copyWith(loading: false));
   }

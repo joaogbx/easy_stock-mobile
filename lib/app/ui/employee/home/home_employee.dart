@@ -1,12 +1,14 @@
 import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/core/cubit/app_cubit.dart';
 import 'package:easy_stock/app/core/ui/components/card_action_widget.dart';
+import 'package:easy_stock/app/core/ui/components/dialog_feedback.dart';
 import 'package:easy_stock/app/core/ui/components/register_movement_button.dart';
 import 'package:easy_stock/app/core/enums/register_mode.dart';
 import 'package:easy_stock/app/core/ui/screen/historical_screen/historical_screen.dart';
 import 'package:easy_stock/app/core/ui/theme/colors_pallete.dart';
 import 'package:easy_stock/app/ui/config/config_bottom_sheet.dart';
 import 'package:easy_stock/app/ui/employee/home/cubit/home_cubit.dart';
+import 'package:easy_stock/app/ui/employee/home/views/movements_preview_widget.dart';
 import 'package:easy_stock/app/ui/employee/register_movement/register_movement_bottom_sheet.dart';
 
 import 'package:easy_stock/app/ui/employee/stock/stock_screen.dart';
@@ -22,29 +24,6 @@ class HomeEmployee extends StatefulWidget {
 }
 
 class _HomeEmployeeState extends State<HomeEmployee> {
-  final List<Map<String, String>> historico = [
-    {'data': '22/10', 'produto': 'Arroz', 'tipo': 'Saída', 'quantidade': '5'},
-    {
-      'data': '21/10',
-      'produto': 'Leite',
-      'tipo': 'Entrada',
-      'quantidade': '10',
-    },
-    {
-      'data': '21/10',
-      'produto': 'Papel A4',
-      'tipo': 'Saída',
-      'quantidade': '20',
-    },
-    {
-      'data': '20/10',
-      'produto': 'Arroz',
-      'tipo': 'Entrada',
-      'quantidade': '50',
-    },
-    {'data': '20/10', 'produto': 'Caneta', 'tipo': 'Saída', 'quantidade': '2'},
-  ];
-
   final appCubit = getIt<AppCubit>();
   final _cubit = getIt<HomeCubit>();
 
@@ -158,9 +137,8 @@ class _HomeEmployeeState extends State<HomeEmployee> {
                           showModalBottomSheet(
                             context: context,
                             backgroundColor: ColorsPallete.darkBackground,
-                            builder: (context) => RegisterMovement(
+                            builder: (ctx) => RegisterMovementBottomSheet(
                               registerMode: RegisterMode.stockIn,
-                              onSuccess: () {},
                             ),
                           );
                         },
@@ -172,9 +150,8 @@ class _HomeEmployeeState extends State<HomeEmployee> {
                           showModalBottomSheet(
                             context: context,
                             backgroundColor: ColorsPallete.darkBackground,
-                            builder: (context) => RegisterMovement(
+                            builder: (ctx) => RegisterMovementBottomSheet(
                               registerMode: RegisterMode.stockOut,
-                              onSuccess: () {},
                             ),
                           );
                         },
@@ -205,77 +182,7 @@ class _HomeEmployeeState extends State<HomeEmployee> {
                       ),
                       SizedBox(height: 16),
                       if (stockMovements != null)
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(
-                              255,
-                              35,
-                              35,
-                              35,
-                            ),
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          child: ListView.builder(
-                            padding: EdgeInsets.all(0),
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: stockMovements!.length,
-                            itemBuilder: (context, index) {
-                              final movement = stockMovements[index];
-                              final product = movement.product;
-
-                              final isStockIn = movement.type == 'STOCK_IN';
-                              final color = isStockIn
-                                  ? Colors.green.shade400
-                                  : Colors.red.shade400;
-
-                              final movementType = movement.type == 'STOCK_IN'
-                                  ? 'Entrada'
-                                  : 'Saída';
-
-                              return Column(
-                                children: [
-                                  ListTile(
-                                    dense: true,
-                                    contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 2,
-                                    ),
-                                    leading: Icon(
-                                      isStockIn
-                                          ? Icons.arrow_downward
-                                          : Icons.arrow_upward,
-                                      color: color,
-                                      size: 20,
-                                    ),
-                                    title: Text(
-                                      product.name,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    subtitle: Text(
-                                      '${movement.createdAt.day}/ ${movement.createdAt.month} | $movementType',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.white70,
-                                      ),
-                                    ),
-                                    trailing: Text(
-                                      '${isStockIn ? '+' : '-'}${movement.quantity}',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: color,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
+                        MovementsPreviewWidget(stockMovements: stockMovements),
                       SizedBox(height: 16),
                       CardActionWidget(
                         icon: Icons.history_toggle_off,
@@ -286,7 +193,7 @@ class _HomeEmployeeState extends State<HomeEmployee> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => HistoricalScreen(),
+                              builder: (context) => HistoricalMovementScreen(),
                             ),
                           );
                         },

@@ -2,14 +2,13 @@ import 'package:easy_stock/app/ui/components/stat_card.dart';
 import 'package:easy_stock/app/ui/admin/product_management_screen/product_management_screen.dart';
 import 'package:easy_stock/app/core/ui/components/card_action_widget.dart';
 import 'package:easy_stock/app/core/ui/screen/historical_screen/historical_screen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:easy_stock/app/ui/config/config_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class HomeAdmin extends StatelessWidget {
-  final VoidCallback onToggle;
-  const HomeAdmin({super.key, required this.onToggle});
-
-  // Função auxiliar para construir Cards de Admin
+  const HomeAdmin({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,17 +28,6 @@ class HomeAdmin extends StatelessWidget {
                     child: Text(
                       'Dashboard',
                       style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: TextButton.icon(
-                      label: Text(
-                        'Funcionário',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      icon: Icon(Icons.swap_horiz, color: Colors.white),
-                      onPressed: onToggle,
                     ),
                   ),
                 ],
@@ -65,7 +53,20 @@ class HomeAdmin extends StatelessWidget {
                   Spacer(),
                   IconButton(
                     icon: Icon(Icons.settings, color: Colors.white),
-                    onPressed: () {},
+                    onPressed: () {
+                      showModalBottomSheet(
+                        backgroundColor: const Color.fromARGB(
+                          255,
+                          20,
+                          20,
+                          20,
+                        ),
+                        context: context,
+                        builder: (context) {
+                          return SettingsScreenOption2();
+                        },
+                      );
+                    },
                   ),
                 ],
               ),
@@ -137,7 +138,9 @@ class HomeAdmin extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HistoricalScreen()),
+                    MaterialPageRoute(
+                      builder: (context) => HistoricalMovementScreen(),
+                    ),
                   );
                 },
               ),

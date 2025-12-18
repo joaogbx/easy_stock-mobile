@@ -28,6 +28,7 @@ class _SettingsScreenOption2State extends State<SettingsScreenOption2> {
   final _appCubit = getIt<AppCubit>();
   @override
   Widget build(BuildContext context) {
+    final userName = _appCubit.state.userlogged!.name;
     return Padding(
       padding: EdgeInsetsGeometry.symmetric(horizontal: 22, vertical: 30),
       child: Column(
@@ -68,7 +69,7 @@ class _SettingsScreenOption2State extends State<SettingsScreenOption2> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Nome do Usuário',
+                        userName,
                         style: TextStyle(
                           color: textColor,
                           fontSize: 18,
