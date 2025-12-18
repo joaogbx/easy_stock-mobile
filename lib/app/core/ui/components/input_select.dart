@@ -8,6 +8,7 @@ class CustomSelectInput<T> extends StatelessWidget {
   final List<T> items;
   final String Function(T) itemLabelBuilder;
   final ValueChanged<T>? onItemSelected;
+  final String? Function(String?)? validator; // Adicionado suporte a validação
 
   const CustomSelectInput({
     super.key,
@@ -17,23 +18,14 @@ class CustomSelectInput<T> extends StatelessWidget {
     required this.itemLabelBuilder,
     this.value,
     this.onItemSelected,
+    this.validator,
   });
-
-  BoxDecoration _getDecoration() {
-    return BoxDecoration(
-      color: ColorsPallete.darkSecondary,
-      borderRadius: BorderRadius.circular(8.0),
-    );
-  }
 
   void _showOptionsModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
       builder: (BuildContext context) {
         return SelectOptionsModal<T>(
           items: items,
@@ -50,37 +42,25 @@ class CustomSelectInput<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String displayText = value != null
-        ? itemLabelBuilder(value as T)
-        : labelText;
+    // Controller para exibir o texto do item selecionado no campo
+    final controller = TextEditingController(
+      text: value != null ? itemLabelBuilder(value as T) : '',
+    );
 
-    return GestureDetector(
-      onTap: () => _showOptionsModal(context),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-        decoration: _getDecoration(),
-        child: Row(
-          children: [
-            Icon(
-              prefixIcon,
-              color: ColorsPallete.primaryPurple,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                displayText,
-                style: TextStyle(
-                  color: ColorsPallete.secondaryPurple,
-                  fontSize: 16,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            const Icon(
-              Icons.keyboard_arrow_down,
-            ),
-          ],
-        ),
+    return TextFormField(
+      controller: controller,
+      readOnly: true, // Impede a abertura do teclado
+      onTap: () => _showOptionsModal(context), // Abre o modal ao clicar
+      validator: validator,
+      style: const TextStyle(color: Colors.white), // Ajuste conforme seu tema
+      decoration: InputDecoration(
+        labelText: labelText,
+        prefixIcon: Icon(prefixIcon, color: ColorsPallete.primaryPurple),
+        suffixIcon: const Icon(Icons.keyboard_arrow_down),
+        border: const OutlineInputBorder(), // Estilo nativo do TextFormField
+        // Se quiser usar o fundo escuro que você tinha antes:
+        filled: true,
+        fillColor: ColorsPallete.darkSecondary,
       ),
     );
   }
@@ -88,15 +68,22 @@ class CustomSelectInput<T> extends StatelessWidget {
 
 class SelectOptionsModal<T> extends StatelessWidget {
   final List<T> items;
+
   final String Function(T) itemLabelBuilder;
+
   final ValueChanged<T> onItemSelected;
+
   final String title;
 
   const SelectOptionsModal({
     super.key,
+
     required this.items,
+
     required this.itemLabelBuilder,
+
     required this.onItemSelected,
+
     required this.title,
   });
 
@@ -105,55 +92,77 @@ class SelectOptionsModal<T> extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: ColorsPallete.darkBackground,
+
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
+
       padding: const EdgeInsets.only(bottom: 8),
+
       child: Column(
         mainAxisSize: MainAxisSize.min,
+
         crossAxisAlignment: CrossAxisAlignment.start,
+
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
+
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+
               children: [
                 Center(
                   child: Container(
                     width: 40,
+
                     height: 4,
+
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 16),
+
                 Text(
                   title,
+
                   style: const TextStyle(
                     fontSize: 20,
+
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ),
           ),
+
           const Divider(height: 1),
+
           ListView.builder(
             shrinkWrap: true,
+
             itemCount: items.length,
+
             itemBuilder: (context, index) {
               final item = items[index];
+
               return ListTile(
                 title: Text(
                   itemLabelBuilder(item),
+
                   style: const TextStyle(
                     fontSize: 16,
                   ),
                 ),
+
                 trailing: const Icon(
                   Icons.arrow_forward_ios,
+
                   size: 16,
                 ),
+
                 onTap: () => onItemSelected(item),
               );
             },

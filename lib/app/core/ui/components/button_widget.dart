@@ -10,11 +10,13 @@ class ButtonWidget extends StatelessWidget {
 
   // Permite que o texto seja customizado, mas mantém 'ADICIONAR' como padrão.
   final String text;
+  final bool loading;
 
   const ButtonWidget({
     super.key,
     required this.onPressed,
     required this.text,
+    this.loading = false,
   });
 
   @override
@@ -31,14 +33,16 @@ class ButtonWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
       ),
-      child: Text(
-        text,
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
-        ),
-      ),
+      child: loading
+          ? const CircularProgressIndicator()
+          : Text(
+              text,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
     );
   }
 }
