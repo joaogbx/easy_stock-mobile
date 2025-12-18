@@ -164,63 +164,6 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
     );
   }
 
-  Widget _buildProductTile(
-    BuildContext context,
-    Product product,
-  ) {
-    return ListTile(
-      title: Text(
-        product.name,
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      subtitle: Text(
-        'ID: ${product.id} | Unidade: ${product.measureUnit}',
-        style: TextStyle(color: Colors.white.withOpacity(0.7)),
-      ),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            icon: Icon(
-              Icons.edit,
-              color: ColorsPallete.secondaryPurple,
-            ),
-            onPressed: () {
-              _showProductEditModal(context, product);
-            },
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.delete,
-              color: Colors.redAccent,
-            ),
-            onPressed: () {
-              showDialog(
-                context: context,
-
-                builder: (context) => AppDialog(
-                  title: 'Excluir Produto',
-
-                  subtitle:
-                      'Tem certeza que deseja excluir ${product.name}? Esta ação não pode ser desfeita.',
-                  confirmText: 'Excluir',
-                  confirmColor: Colors.redAccent, // Cor de alerta/perigo
-                  onConfirm: () {
-                    // Aqui você chamaria o seu cubit
-                    _cubit.productDelete(product.id);
-                  },
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
   void _showProductAddModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -231,13 +174,7 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
       ),
       builder: (BuildContext context) => BlocProvider.value(
         value: _cubit,
-        child: ProductAddBottomSheet(
-          products: _cubit.state.products,
-          productAddCallBack:
-              (String name, String quantity, String measureUnit) {
-                _cubit.productRegistered(name, quantity, measureUnit);
-              },
-        ),
+        child: ProductAddBottomSheet(),
       ),
     ).then((value) {
       if (value == true) {
@@ -262,16 +199,11 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
         value: _cubit,
         child: ProductEditBottomSheet(
           product: product,
-          refresh: _refreshProducts,
         ),
       ),
     ).then((value) {
       if (value == true) {
-        showSnackBarFeedback(
-          context: context,
-          message: 'Produto atualizado',
-          feedbackType: FeedbackType.success,
-        );
+        _refreshProducts();
       }
     });
   }

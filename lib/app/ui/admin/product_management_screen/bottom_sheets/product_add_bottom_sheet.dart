@@ -8,13 +8,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductAddBottomSheet extends StatefulWidget {
-  final List<Product> products;
-  final Function(String name, String quantity, String unitMeasure)
-  productAddCallBack;
   const ProductAddBottomSheet({
     super.key,
-    required this.products,
-    required this.productAddCallBack,
   });
   @override
   State<ProductAddBottomSheet> createState() => _ProductAddBottomSheetState();
@@ -23,6 +18,7 @@ class ProductAddBottomSheet extends StatefulWidget {
 class _ProductAddBottomSheetState extends State<ProductAddBottomSheet> {
   final _nameController = TextEditingController();
   final _quantityController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   String? measureUnitSelected;
   @override
@@ -50,97 +46,125 @@ class _ProductAddBottomSheetState extends State<ProductAddBottomSheet> {
           );
         }
       },
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: 20,
-          left: 20,
-          right: 20,
-          bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Text(
-                'Adicionar Novo Produto',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 30),
-              TextFormField(
-                controller: _nameController,
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  labelText: 'Nome do Produto',
-                  labelStyle: TextStyle(color: Colors.white),
-                  hintText: 'Ex: Café Torrado',
-                ),
-              ),
-              const SizedBox(height: 20),
-              CustomSelectInput<String>(
-                labelText: 'Selecione uma unidade de medida',
-                items: const ['Unidade', 'Litro', 'Kg'],
-
-                value: measureUnitSelected,
-                itemLabelBuilder: (product) {
-                  return product;
-                },
-                onItemSelected: (product) {
-                  setState(() {
-                    measureUnitSelected = product;
-                  });
-                },
-                prefixIcon: Icons.straighten,
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: _quantityController,
-                keyboardType: TextInputType.number,
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  labelText: 'Quantidade em Estoque',
-                  labelStyle: TextStyle(color: Colors.white),
-                  hintText: 'Ex: 150',
-                ),
-              ),
-              const SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: loading
-                    ? null
-                    : () {
-                        final String name = _nameController.text;
-                        final String quantity = _quantityController.text;
-
-                        widget.productAddCallBack(
-                          name,
-                          quantity,
-                          measureUnitSelected!,
-                        );
-                      },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: ColorsPallete.primaryPurple,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+      child: Form(
+        key: _formKey,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 20,
+            left: 20,
+            right: 20,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Text(
+                  'Adicionar Novo Produto',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
+                  textAlign: TextAlign.center,
                 ),
-                child: loading
-                    ? CircularProgressIndicator()
-                    : Text(
-                        'ADICIONAR',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                const SizedBox(height: 30),
+                TextFormField(
+                  controller: _nameController,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    labelText: 'Nome do Produto',
+                    labelStyle: TextStyle(color: Colors.white),
+                    hintText: 'Ex: Café Torrado',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, insira o nome do produto';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                CustomSelectInput<String>(
+                  labelText: 'Selecione uma unidade de medida',
+                  items: const ['Unidade', 'Litro', 'Kg'],
+
+                  value: measureUnitSelected,
+                  itemLabelBuilder: (product) {
+                    return product;
+                  },
+                  onItemSelected: (product) {
+                    setState(() {
+                      measureUnitSelected = product;
+                    });
+                  },
+                  prefixIcon: Icons.straighten,
+                  validator: (value) {
+                    if (measureUnitSelected == null) {
+                      return 'Por favor, selecione uma unidade de medida';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _quantityController,
+                  keyboardType: TextInputType.number,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    labelText: 'Quantidade em Estoque',
+                    labelStyle: TextStyle(color: Colors.white),
+                    hintText: 'Ex: 150',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, insira a quantidade';
+                    }
+                    if (int.tryParse(value) == null) {
+                      return 'Por favor, insira um número válido';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 40),
+                ElevatedButton(
+                  onPressed: loading
+                      ? null
+                      : () {
+                          if (_formKey.currentState!.validate()) {
+                            final String name = _nameController.text;
+                            final String quantity = _quantityController.text;
+
+                            context
+                                .read<ProductManagementCubit>()
+                                .productRegistered(
+                                  name,
+                                  quantity,
+                                  measureUnitSelected!,
+                                );
+                          }
+                        },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorsPallete.primaryPurple,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: loading
+                      ? CircularProgressIndicator()
+                      : Text(
+                          'ADICIONAR',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -10,11 +10,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductEditBottomSheet extends StatefulWidget {
   final Product product;
-  final Function() refresh;
+
   const ProductEditBottomSheet({
     super.key,
     required this.product,
-    required this.refresh,
   });
   @override
   State<ProductEditBottomSheet> createState() => _ProductEditBottomSheetState();
@@ -36,21 +35,16 @@ class _ProductEditBottomSheetState extends State<ProductEditBottomSheet> {
     return BlocListener<ProductManagementCubit, ProductManagementState>(
       listenWhen: (previous, current) => previous.loading && !current.loading,
       listener: (context, state) {
-        // CORREÇÃO AQUI: Capturamos o Navigator do contexto específico do BottomSheet
-        final navigator = Navigator.of(context);
-
         if (state.errorMessage == null) {
-          widget.refresh();
-          if (navigator.canPop())
-            navigator.pop(); // Fecha o BottomSheet com segurança
+          Navigator.of(context).pop(true);
+
           showSnackBarFeedback(
             context: context,
-            message: "Produto editado com sucesso!",
+            message: 'Produto editado com sucesso!',
             feedbackType: FeedbackType.success,
           );
         } else {
-          if (navigator.canPop())
-            navigator.pop(); // Fecha o BottomSheet com segurança
+          Navigator.of(context).pop();
           showSnackBarFeedback(
             context: context,
             message: state.errorMessage!,
