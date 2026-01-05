@@ -57,7 +57,15 @@ class _HistoricalMovementScreenState extends State<HistoricalMovementScreen> {
     if (picked != null) {
       setState(() {
         _startDate = picked.start;
-        _endDate = picked.end;
+        _endDate = DateTime(
+          picked.end.year,
+          picked.end.month,
+          picked.end.day,
+          23,
+          59,
+          59,
+          999,
+        );
       });
 
       // Aqui, o Cubit seria chamado com o filtro de data:
