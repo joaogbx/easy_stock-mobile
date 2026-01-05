@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:easy_stock/app/core/utils/auth_interceptor.dart';
+import 'package:easy_stock/app/features/auth/utils/auth_interceptor.dart';
 import 'package:easy_stock/constants.dart';
 import 'package:injectable/injectable.dart';
 

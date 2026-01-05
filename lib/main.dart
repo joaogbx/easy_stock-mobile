@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/core/network/network_module.dart';
-import 'package:easy_stock/app/core/ui/theme/theme.dart';
-import 'package:easy_stock/app/core/utils/auth_interceptor.dart';
-import 'package:easy_stock/app/ui/admin/home/home_admin_screen.dart';
-import 'package:easy_stock/app/ui/employee/home/home_employee.dart';
-import 'package:easy_stock/app/ui/auth/login/login_screen.dart';
+import 'package:easy_stock/app/shared/theme/theme.dart';
+import 'package:easy_stock/app/features/auth/utils/auth_interceptor.dart';
+import 'package:easy_stock/app/features/home/admin/home/home_admin_screen.dart';
+import 'package:easy_stock/app/features/home/employee/home/home_employee.dart';
+import 'package:easy_stock/app/features/auth/presentation/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

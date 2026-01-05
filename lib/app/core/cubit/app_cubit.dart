@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:easy_stock/app/core/data/models/stock_movement.dart';
-import 'package:easy_stock/app/core/data/models/user_model.dart';
-import 'package:easy_stock/app/core/data/repositories/auth_repository.dart';
-import 'package:easy_stock/app/core/domain/repositories/i_auth_repository.dart';
-import 'package:easy_stock/app/core/domain/repositories/i_stock_reposittory.dart';
+import 'package:easy_stock/app/core/models/stock_movement.dart';
+import 'package:easy_stock/app/core/models/user_model.dart';
+import 'package:easy_stock/app/features/auth/data/repositories/auth_repository.dart';
+import 'package:easy_stock/app/features/auth/domain/i_auth_repository.dart';
+import 'package:easy_stock/app/features/stock/domain/repositories/i_stock_reposittory.dart';
 import 'package:easy_stock/app/core/infra/storage/i_secure_storage_service.dart';
 import 'package:easy_stock/app/core/infra/storage/secure_storage_service.dart';
 

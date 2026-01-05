@@ -11,57 +11,59 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i361;
 import 'package:easy_stock/app/core/cubit/app_cubit.dart' as _i375;
-import 'package:easy_stock/app/core/data/datasource/auth_datasource.dart'
+import 'package:easy_stock/app/features/auth/data/datasources/auth_datasource.dart'
     as _i248;
-import 'package:easy_stock/app/core/data/datasource/company_datasource.dart'
+import 'package:easy_stock/app/features/company/data/datasource/company_datasource.dart'
     as _i578;
-import 'package:easy_stock/app/core/data/datasource/product_datasource.dart'
+import 'package:easy_stock/app/features/product/data/datasource/product_datasource.dart'
     as _i524;
-import 'package:easy_stock/app/core/data/datasource/stock_datasource.dart'
+import 'package:easy_stock/app/features/stock/data/datasources/stock_datasource.dart'
     as _i820;
-import 'package:easy_stock/app/core/data/datasource/user_datasource.dart'
+import 'package:easy_stock/app/features/user/data/datasource/user_datasource.dart'
     as _i258;
-import 'package:easy_stock/app/core/data/repositories/auth_repository.dart'
+import 'package:easy_stock/app/features/auth/data/repositories/auth_repository.dart'
     as _i263;
-import 'package:easy_stock/app/core/data/repositories/company_repository.dart'
+import 'package:easy_stock/app/features/company/data/repositories/company_repository.dart'
     as _i120;
-import 'package:easy_stock/app/core/data/repositories/product_repository.dart'
+import 'package:easy_stock/app/features/product/data/repositorie/product_repository.dart'
     as _i96;
-import 'package:easy_stock/app/core/data/repositories/stock_repository.dart'
+import 'package:easy_stock/app/features/stock/data/repositories/stock_repository.dart'
     as _i603;
-import 'package:easy_stock/app/core/data/repositories/user_repository.dart'
+import 'package:easy_stock/app/features/user/data/repositorie/user_repository.dart'
     as _i867;
-import 'package:easy_stock/app/core/domain/repositories/i_auth_repository.dart'
+import 'package:easy_stock/app/features/auth/domain/i_auth_repository.dart'
     as _i236;
-import 'package:easy_stock/app/core/domain/repositories/i_company_repository.dart'
+import 'package:easy_stock/app/features/company/domain/i_company_repository.dart'
     as _i1056;
-import 'package:easy_stock/app/core/domain/repositories/i_product_repository.dart'
+import 'package:easy_stock/app/features/product/domain/i_product_repository.dart'
     as _i778;
-import 'package:easy_stock/app/core/domain/repositories/i_stock_reposittory.dart'
+import 'package:easy_stock/app/features/stock/domain/repositories/i_stock_reposittory.dart'
     as _i586;
-import 'package:easy_stock/app/core/domain/repositories/i_user_repository.dart'
+import 'package:easy_stock/app/features/user/domain/i_user_repository.dart'
     as _i469;
-import 'package:easy_stock/app/core/domain/usecases/get_product_list_uc.dart'
-    as _i594;
+import 'package:easy_stock/app/core/usecases/get_product_list_uc.dart' as _i594;
 import 'package:easy_stock/app/core/infra/storage/i_secure_storage_service.dart'
     as _i144;
 import 'package:easy_stock/app/core/infra/storage/secure_storage_service.dart'
     as _i916;
 import 'package:easy_stock/app/core/network/network_module.dart' as _i323;
-import 'package:easy_stock/app/core/ui/screen/historical_screen/cubit/historical_cubit.dart'
+import 'package:easy_stock/app/shared/screen/historical_screen/cubit/historical_cubit.dart'
     as _i143;
-import 'package:easy_stock/app/core/utils/auth_interceptor.dart' as _i976;
-import 'package:easy_stock/app/ui/admin/product_management_screen/cubit/product_management_cubit.dart'
+import 'package:easy_stock/app/features/auth/utils/auth_interceptor.dart'
+    as _i976;
+import 'package:easy_stock/app/features/product/presentation/product_management_screen/cubit/product_management_cubit.dart'
     as _i633;
-import 'package:easy_stock/app/ui/auth/create_user/cubit/create_user_cubit.dart'
+import 'package:easy_stock/app/features/auth/presentation/create_user/cubit/create_user_cubit.dart'
     as _i384;
-import 'package:easy_stock/app/ui/auth/login/cubit/auth_cubit.dart' as _i393;
-import 'package:easy_stock/app/ui/company/cubit/create_company_cubit.dart'
+import 'package:easy_stock/app/features/auth/presentation/login/cubit/auth_cubit.dart'
+    as _i393;
+import 'package:easy_stock/app/features/company/cubit/create_company_cubit.dart'
     as _i292;
-import 'package:easy_stock/app/ui/employee/home/cubit/home_cubit.dart' as _i238;
-import 'package:easy_stock/app/ui/employee/register_movement/cubit/register_movement_cubit.dart'
+import 'package:easy_stock/app/features/home/employee/home/cubit/home_cubit.dart'
+    as _i238;
+import 'package:easy_stock/app/features/stock/presentation/bottom_sheets/register_movement/cubit/register_movement_cubit.dart'
     as _i729;
-import 'package:easy_stock/app/ui/employee/stock/cubit/stock_cubit.dart'
+import 'package:easy_stock/app/features/stock/presentation/cubit/stock_cubit.dart'
     as _i42;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
