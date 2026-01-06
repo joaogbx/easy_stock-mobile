@@ -1,5 +1,5 @@
 import 'package:easy_stock/app/core/config/injection.dart';
-import 'package:easy_stock/app/core/models/product_model.dart';
+import 'package:easy_stock/app/features/product/data/model/product_model.dart';
 import 'package:easy_stock/app/shared/components/custom_refresh_indicator.dart';
 import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
 import 'package:easy_stock/app/shared/components/appbar_widget.dart';

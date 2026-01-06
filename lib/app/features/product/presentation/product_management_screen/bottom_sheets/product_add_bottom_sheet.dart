@@ -1,4 +1,4 @@
-import 'package:easy_stock/app/core/models/product_model.dart';
+import 'package:easy_stock/app/features/product/data/model/product_model.dart';
 import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
 import 'package:easy_stock/app/shared/components/input_select.dart';
 import 'package:easy_stock/app/shared/theme/colors_pallete.dart';

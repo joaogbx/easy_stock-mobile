@@ -1,5 +1,5 @@
 import 'package:easy_stock/app/core/config/injection.dart';
-import 'package:easy_stock/app/core/models/user_model.dart';
+import 'package:easy_stock/app/features/user/data/model/user_model.dart';
 import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
 import 'package:easy_stock/app/features/company/presentation/screens/create_company/create_company_screen.dart';
 import 'package:easy_stock/app/features/auth/presentation/create_user/cubit/create_user_cubit.dart';

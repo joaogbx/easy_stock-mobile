@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
-import 'package:easy_stock/app/core/models/stock_movement.dart';
+import 'package:easy_stock/app/features/stock/data/model/stock_movement.dart';
 import 'package:easy_stock/app/features/stock/domain/repositories/i_stock_reposittory.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';

@@ -1,6 +1,6 @@
 import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/core/cubit/app_cubit.dart';
-import 'package:easy_stock/app/core/models/product_model.dart';
+import 'package:easy_stock/app/features/product/data/model/product_model.dart';
 import 'package:easy_stock/app/features/product/domain/i_product_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';

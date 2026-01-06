@@ -1,5 +1,5 @@
 // 1. Definição da Classe
-import 'package:easy_stock/app/core/models/product_model.dart';
+import 'package:easy_stock/app/features/product/data/model/product_model.dart';
 import 'package:easy_stock/app/features/product/data/repository/product_repository.dart';
 import 'package:easy_stock/app/features/product/domain/i_product_repository.dart';
 import 'package:easy_stock/app/core/result/result.dart';

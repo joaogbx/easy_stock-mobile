@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:easy_stock/app/core/models/stock_movement.dart';
-import 'package:easy_stock/app/core/models/user_model.dart';
+import 'package:easy_stock/app/features/stock/data/model/stock_movement.dart';
+import 'package:easy_stock/app/features/user/data/model/user_model.dart';
 import 'package:easy_stock/app/features/auth/domain/i_auth_repository.dart';
 import 'package:easy_stock/app/features/stock/domain/repositories/i_stock_reposittory.dart';
 import 'package:easy_stock/app/core/infra/storage/i_secure_storage_service.dart';

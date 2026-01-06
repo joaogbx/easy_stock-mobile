@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:easy_stock/app/features/auth/data/datasources/auth_datasource.dart';
-import 'package:easy_stock/app/core/models/user_model.dart';
+import 'package:easy_stock/app/features/user/data/model/user_model.dart';
 
 import 'package:easy_stock/app/features/auth/domain/i_auth_repository.dart';
 import 'package:easy_stock/app/core/infra/storage/i_secure_storage_service.dart';

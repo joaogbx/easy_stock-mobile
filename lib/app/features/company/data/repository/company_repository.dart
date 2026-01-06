@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:easy_stock/app/features/company/data/datasource/company_datasource.dart';
 
-import 'package:easy_stock/app/core/models/company_model.dart';
+import 'package:easy_stock/app/features/company/data/model/company_model.dart';
 import 'package:easy_stock/app/features/company/domain/i_company_repository.dart';
 import 'package:easy_stock/app/core/result/result.dart';
 import 'package:injectable/injectable.dart';

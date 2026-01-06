@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:easy_stock/app/features/user/data/datasource/user_datasource.dart';
-import 'package:easy_stock/app/core/models/user_model.dart';
+import 'package:easy_stock/app/features/user/data/model/user_model.dart';
 import 'package:easy_stock/app/features/user/domain/i_user_repository.dart';
 import 'package:easy_stock/app/core/result/result.dart';
 import 'package:injectable/injectable.dart';

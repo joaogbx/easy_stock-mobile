@@ -1,4 +1,4 @@
-import 'package:easy_stock/app/core/models/product_model.dart';
+import 'package:easy_stock/app/features/product/data/model/product_model.dart';
 import 'package:easy_stock/app/features/stock/domain/repositories/i_stock_reposittory.dart';
 import 'package:easy_stock/app/core/usecases/get_product_list_uc.dart';
 import 'package:easy_stock/app/core/enums/register_mode.dart';

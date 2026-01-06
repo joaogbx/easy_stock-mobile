@@ -1,4 +1,4 @@
-import 'package:easy_stock/app/core/models/product_model.dart';
+import 'package:easy_stock/app/features/product/data/model/product_model.dart';
 import 'package:easy_stock/app/shared/theme/colors_pallete.dart';
 import 'package:easy_stock/app/features/product/presentation/product_management_screen/cubit/product_management_cubit.dart';
 import 'package:flutter/material.dart';

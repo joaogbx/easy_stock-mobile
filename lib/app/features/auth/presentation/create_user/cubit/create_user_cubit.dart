@@ -1,6 +1,6 @@
 import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/core/cubit/app_cubit.dart';
-import 'package:easy_stock/app/core/models/user_model.dart';
+import 'package:easy_stock/app/features/user/data/model/user_model.dart';
 import 'package:easy_stock/app/features/auth/domain/i_auth_repository.dart';
 import 'package:easy_stock/app/features/user/domain/i_user_repository.dart';
 import 'package:flutter/material.dart';

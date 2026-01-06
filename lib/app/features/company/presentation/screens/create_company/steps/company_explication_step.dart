@@ -1,4 +1,4 @@
-import 'package:easy_stock/app/core/models/user_model.dart';
+import 'package:easy_stock/app/features/user/data/model/user_model.dart';
 import 'package:easy_stock/app/shared/theme/colors_pallete.dart'; // Import da Paleta
 import 'package:flutter/material.dart';
 

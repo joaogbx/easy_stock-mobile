@@ -1,4 +1,4 @@
-import 'package:easy_stock/app/core/models/stock_movement.dart';
+import 'package:easy_stock/app/features/stock/data/model/stock_movement.dart';
 
 class Product {
   final int id;
