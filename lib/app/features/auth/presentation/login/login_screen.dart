@@ -2,9 +2,9 @@ import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/core/cubit/app_cubit.dart';
 import 'package:easy_stock/app/core/infra/storage/secure_storage_service.dart';
 import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
-import 'package:easy_stock/app/features/home/admin/home/home_admin_screen.dart';
+import 'package:easy_stock/app/features/home/admin/presentation/home_admin_screen.dart';
 import 'package:easy_stock/app/features/company/presentation/screens/create_company/create_company_screen.dart';
-import 'package:easy_stock/app/features/home/employee/home/home_employee.dart';
+import 'package:easy_stock/app/features/home/employee/presentation/home_employee.dart';
 import 'package:easy_stock/app/features/auth/presentation/login/cubit/auth_cubit.dart';
 import 'package:easy_stock/app/features/auth/presentation/create_user/create_account_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -54,7 +54,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                        builder: (context) => HomeAdmin(),
+                        builder: (context) => HomeEmployee(
+                          onToggle: () => null,
+                        ),
                       ),
                       (Route<dynamic> route) => false,
                     );

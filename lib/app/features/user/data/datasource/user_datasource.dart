@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:easy_stock/constants.dart';
+import 'package:easy_stock/app/core/constants.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable

@@ -29,8 +29,8 @@ class RegisterMovementButton extends StatelessWidget {
       ),
       style: ElevatedButton.styleFrom(
         backgroundColor: registerMode == RegisterMode.stockOut
-            ? Colors.redAccent
-            : Colors.green,
+            ? const Color.fromARGB(255, 236, 14, 43)
+            : const Color.fromARGB(255, 3, 184, 99),
         minimumSize: Size(double.infinity, 80),
       ),
       onPressed: onTap,

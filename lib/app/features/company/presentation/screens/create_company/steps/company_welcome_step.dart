@@ -1,6 +1,5 @@
 import 'package:easy_stock/app/shared/theme/colors_pallete.dart';
 import 'package:easy_stock/app/features/auth/presentation/login/login_screen.dart';
-import 'package:easy_stock/constants.dart';
 import 'package:flutter/material.dart';
 
 // Constantes de Cores (Ajuste os valores para os seus)

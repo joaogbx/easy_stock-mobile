@@ -1,8 +1,8 @@
 import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/core/cubit/app_cubit.dart';
 import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
-import 'package:easy_stock/app/shared/screen/historical_screen/cubit/historical_cubit.dart';
-import 'package:easy_stock/app/features/components/appbar_widget.dart';
+import 'package:easy_stock/app/shared/screen/movements_screen/cubit/historical_cubit.dart';
+import 'package:easy_stock/app/shared/components/appbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_stock/app/shared/theme/colors_pallete.dart';
@@ -109,10 +109,8 @@ class _HistoricalMovementScreenState extends State<HistoricalMovementScreen> {
             final stockMovements = state.stockMovements;
 
             // Verifica se o filtro de data está ativo (SÓ IMPORTA SE FOR ADMIN)
-            final bool isFilteredByDate =
-                _startDate != null && _endDate != null;
+            bool isFilteredByDate = _startDate != null && _endDate != null;
 
-            // 1. Lógica para os botões da AppBar (Renderizados SOMENTE se isAdmin for true)
             List<Widget> actions = [];
             if (isAdmin) {
               if (isFilteredByDate) {
@@ -196,9 +194,11 @@ class _HistoricalMovementScreenState extends State<HistoricalMovementScreen> {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    // Recarrega os dados. Se for Admin E estiver filtrado,
-                    // a chamada seria a versão filtrada.
                     _cubit.initData();
+                    setState(() {
+                      _startDate = null;
+                      _endDate = null;
+                    });
                   },
                   child: ListView.builder(
                     itemCount: stockMovements.length,

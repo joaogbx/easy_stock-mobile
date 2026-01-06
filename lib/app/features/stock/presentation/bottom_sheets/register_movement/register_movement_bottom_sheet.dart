@@ -12,10 +12,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterMovementBottomSheet extends StatefulWidget {
   final RegisterMode registerMode;
+  final Function() refresh;
 
   const RegisterMovementBottomSheet({
     super.key,
     required this.registerMode,
+    required this.refresh,
   });
 
   @override
@@ -47,12 +49,7 @@ class _RegisterMovementState extends State<RegisterMovementBottomSheet> {
           return Column(
             children: [
               DragHandle(),
-              IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: Icon(Icons.close),
-              ),
+
               Padding(
                 padding: const EdgeInsets.only(
                   left: 20,
@@ -147,6 +144,7 @@ class _RegisterMovementState extends State<RegisterMovementBottomSheet> {
   }
 
   onSuccess() {
+    widget.refresh();
     Navigator.of(context).pop();
 
     Future.delayed(Duration.zero, () {

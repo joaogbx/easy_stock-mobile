@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:easy_stock/constants.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
@@ -22,6 +21,12 @@ class AuthDatasource {
   }) async {
     final result = await _dioHttp.post('/auth/register', data: payload);
     print(result);
+
+    return jsonDecode(result.toString());
+  }
+
+  Future<Map<String, dynamic>> me() async {
+    final result = await _dioHttp.get('/auth/me');
 
     return jsonDecode(result.toString());
   }

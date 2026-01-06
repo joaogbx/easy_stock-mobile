@@ -46,4 +46,17 @@ class AuthRepository implements IAuthRepository {
       return Result.error('Erro ao Criar usuário, $error');
     }
   }
+
+  @override
+  Future<Result> me() async {
+    try {
+      final response = await _dataSource.me();
+
+      return Result.success(User.fromMap(response['data']));
+    } on DioException catch (error) {
+      return Result.error(error.response.toString());
+    } catch (error) {
+      return Result.error(error.toString());
+    }
+  }
 }

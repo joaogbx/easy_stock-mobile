@@ -2,11 +2,15 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:easy_stock/app/core/config/injection.dart';
+import 'package:easy_stock/app/core/cubit/app_cubit.dart';
+import 'package:easy_stock/app/core/infra/storage/i_secure_storage_service.dart';
 import 'package:easy_stock/app/core/network/network_module.dart';
+import 'package:easy_stock/app/core/routes/app_routes.dart';
+import 'package:easy_stock/app/features/company/presentation/screens/create_company/steps/company_welcome_step.dart';
 import 'package:easy_stock/app/shared/theme/theme.dart';
 import 'package:easy_stock/app/features/auth/utils/auth_interceptor.dart';
-import 'package:easy_stock/app/features/home/admin/home/home_admin_screen.dart';
-import 'package:easy_stock/app/features/home/employee/home/home_employee.dart';
+import 'package:easy_stock/app/features/home/admin/presentation/home_admin_screen.dart';
+import 'package:easy_stock/app/features/home/employee/presentation/home_employee.dart';
 import 'package:easy_stock/app/features/auth/presentation/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -29,10 +33,10 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'App Estoque Fácil',
       theme: getAppTheme(),
-      home: LoginScreen(),
+      routerConfig: AppRoutes.router,
     );
   }
 }

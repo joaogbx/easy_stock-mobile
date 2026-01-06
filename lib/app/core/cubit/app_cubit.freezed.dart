@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppState {
 
- User? get userlogged;
+ User? get userlogged; bool get loading;
 /// Create a copy of AppState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $AppStateCopyWith<AppState> get copyWith => _$AppStateCopyWithImpl<AppState>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppState&&(identical(other.userlogged, userlogged) || other.userlogged == userlogged));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppState&&(identical(other.userlogged, userlogged) || other.userlogged == userlogged)&&(identical(other.loading, loading) || other.loading == loading));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,userlogged);
+int get hashCode => Object.hash(runtimeType,userlogged,loading);
 
 @override
 String toString() {
-  return 'AppState(userlogged: $userlogged)';
+  return 'AppState(userlogged: $userlogged, loading: $loading)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $AppStateCopyWith<$Res>  {
   factory $AppStateCopyWith(AppState value, $Res Function(AppState) _then) = _$AppStateCopyWithImpl;
 @useResult
 $Res call({
- User? userlogged
+ User? userlogged, bool loading
 });
 
 
@@ -62,10 +62,11 @@ class _$AppStateCopyWithImpl<$Res>
 
 /// Create a copy of AppState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userlogged = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? userlogged = freezed,Object? loading = null,}) {
   return _then(_self.copyWith(
 userlogged: freezed == userlogged ? _self.userlogged : userlogged // ignore: cast_nullable_to_non_nullable
-as User?,
+as User?,loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -150,10 +151,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User? userlogged)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User? userlogged,  bool loading)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppState() when $default != null:
-return $default(_that.userlogged);case _:
+return $default(_that.userlogged,_that.loading);case _:
   return orElse();
 
 }
@@ -171,10 +172,10 @@ return $default(_that.userlogged);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User? userlogged)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User? userlogged,  bool loading)  $default,) {final _that = this;
 switch (_that) {
 case _AppState():
-return $default(_that.userlogged);case _:
+return $default(_that.userlogged,_that.loading);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -191,10 +192,10 @@ return $default(_that.userlogged);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User? userlogged)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User? userlogged,  bool loading)?  $default,) {final _that = this;
 switch (_that) {
 case _AppState() when $default != null:
-return $default(_that.userlogged);case _:
+return $default(_that.userlogged,_that.loading);case _:
   return null;
 
 }
@@ -206,10 +207,11 @@ return $default(_that.userlogged);case _:
 
 
 class _AppState implements AppState {
-  const _AppState({this.userlogged});
+  const _AppState({this.userlogged, this.loading = false});
   
 
 @override final  User? userlogged;
+@override@JsonKey() final  bool loading;
 
 /// Create a copy of AppState
 /// with the given fields replaced by the non-null parameter values.
@@ -221,16 +223,16 @@ _$AppStateCopyWith<_AppState> get copyWith => __$AppStateCopyWithImpl<_AppState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppState&&(identical(other.userlogged, userlogged) || other.userlogged == userlogged));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppState&&(identical(other.userlogged, userlogged) || other.userlogged == userlogged)&&(identical(other.loading, loading) || other.loading == loading));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,userlogged);
+int get hashCode => Object.hash(runtimeType,userlogged,loading);
 
 @override
 String toString() {
-  return 'AppState(userlogged: $userlogged)';
+  return 'AppState(userlogged: $userlogged, loading: $loading)';
 }
 
 
@@ -241,7 +243,7 @@ abstract mixin class _$AppStateCopyWith<$Res> implements $AppStateCopyWith<$Res>
   factory _$AppStateCopyWith(_AppState value, $Res Function(_AppState) _then) = __$AppStateCopyWithImpl;
 @override @useResult
 $Res call({
- User? userlogged
+ User? userlogged, bool loading
 });
 
 
@@ -258,10 +260,11 @@ class __$AppStateCopyWithImpl<$Res>
 
 /// Create a copy of AppState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? userlogged = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? userlogged = freezed,Object? loading = null,}) {
   return _then(_AppState(
 userlogged: freezed == userlogged ? _self.userlogged : userlogged // ignore: cast_nullable_to_non_nullable
-as User?,
+as User?,loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

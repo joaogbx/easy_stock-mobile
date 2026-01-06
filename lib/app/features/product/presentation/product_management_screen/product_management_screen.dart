@@ -8,7 +8,7 @@ import 'package:easy_stock/app/features/product/presentation/product_management_
 import 'package:easy_stock/app/features/product/presentation/product_management_screen/bottom_sheets/product_edit_bottom_sheet.dart';
 import 'package:easy_stock/app/features/product/presentation/product_management_screen/components/product_tile.dart';
 import 'package:easy_stock/app/features/product/presentation/product_management_screen/cubit/product_management_cubit.dart';
-import 'package:easy_stock/app/features/components/appbar_widget.dart';
+import 'package:easy_stock/app/shared/components/appbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

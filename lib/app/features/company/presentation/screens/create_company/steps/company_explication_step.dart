@@ -1,6 +1,5 @@
 import 'package:easy_stock/app/core/models/user_model.dart';
 import 'package:easy_stock/app/shared/theme/colors_pallete.dart'; // Import da Paleta
-import 'package:easy_stock/constants.dart';
 import 'package:flutter/material.dart';
 
 class CompanyExplicationStep extends StatelessWidget {
