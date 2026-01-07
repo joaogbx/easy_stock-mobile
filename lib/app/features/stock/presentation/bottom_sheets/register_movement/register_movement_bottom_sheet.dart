@@ -1,6 +1,7 @@
 import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/features/product/data/model/product_model.dart';
 import 'package:easy_stock/app/core/enums/register_mode.dart';
+import 'package:easy_stock/app/shared/components/button_widget.dart';
 import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
 import 'package:easy_stock/app/shared/components/drag_handle.dart';
 import 'package:easy_stock/app/shared/components/input_select.dart';
@@ -47,6 +48,7 @@ class _RegisterMovementState extends State<RegisterMovementBottomSheet> {
           final products = state.products;
           bool loading = state.loading;
           return Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               DragHandle(),
 
@@ -59,6 +61,7 @@ class _RegisterMovementState extends State<RegisterMovementBottomSheet> {
                   key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
+
                     children: [
                       Text(
                         'Detalhes da $type',
@@ -100,12 +103,9 @@ class _RegisterMovementState extends State<RegisterMovementBottomSheet> {
                         },
                       ),
                       SizedBox(height: 16),
-                      SizedBox(height: 30),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: _buttonColor,
-                          minimumSize: Size(double.infinity, 50),
-                        ),
+
+                      ButtonWidget(
+                        padding: EdgeInsets.only(bottom: 40),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             cubit.submitMovementForm(
@@ -117,20 +117,9 @@ class _RegisterMovementState extends State<RegisterMovementBottomSheet> {
                             );
                           }
                         },
-                        child: loading
-                            ? CircularProgressIndicator(
-                                color: Colors.white,
-                              )
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.check_circle_outline),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text('CONFIRMAR $type'),
-                                ],
-                              ),
+                        text: 'CONFIRMAR $type',
+                        loading: loading,
+                        color: _buttonColor,
                       ),
                     ],
                   ),

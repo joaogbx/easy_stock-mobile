@@ -11,6 +11,9 @@ import 'package:easy_stock/app/features/product/presentation/product_management_
 import 'package:easy_stock/app/shared/components/appbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_stock/app/features/product/data/model/product_model.dart';
+import 'package:easy_stock/app/shared/theme/colors_pallete.dart';
+import 'package:flutter/material.dart';
 
 class ProductManagementScreen extends StatefulWidget {
   @override
@@ -31,7 +34,6 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
     _cubit.initData();
   }
 
-  // 🚀 Lógica de deleção isolada para manter o build limpo
   void _onConfirmDelete(BuildContext context, Product product) {
     showDialog(
       context: context,
@@ -114,8 +116,6 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Color accentColor = ColorsPallete.secondaryPurple;
-
     return BlocProvider.value(
       value: _cubit,
       child: Scaffold(
@@ -128,36 +128,91 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
           child: Column(
             children: [
               Expanded(
-                child:
-                    BlocBuilder<ProductManagementCubit, ProductManagementState>(
-                      builder: (context, state) {
-                        final products = state.products;
+                child: BlocBuilder<ProductManagementCubit, ProductManagementState>(
+                  builder: (context, state) {
+                    final products = state.products;
 
-                        if (products.isEmpty && !state.loading) {
-                          return const Center(
-                            child: Text(
-                              'Nenhum produto cadastrado.',
-                              style: TextStyle(color: Colors.white70),
+                    if (products.isEmpty && !state.loading) {
+                      return const Center(
+                        child: Text(
+                          'Nenhum produto cadastrado.',
+                          style: TextStyle(color: Colors.white70),
+                        ),
+                      );
+                    }
+
+                    // 🚀 Alterado para ListView.separated para incluir a linha divisória (Divider)
+                    return ListView.separated(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding: const EdgeInsets.all(16.0),
+                      itemCount: products.length,
+                      separatorBuilder: (context, index) => const Divider(
+                        color: Colors.white12,
+                        height: 1,
+                      ),
+                      itemBuilder: (context, index) {
+                        final product = products[index];
+                        return ProductTile(
+                          product: product,
+                          // 🚀 O trailing (três pontos) agora é injetado ou tratado internamente no ProductTile
+                          trailing: PopupMenuButton<String>(
+                            icon: const Icon(
+                              Icons.more_vert,
+                              color: Colors.white70,
                             ),
-                          );
-                        }
-
-                        return ListView.builder(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          padding: const EdgeInsets.all(16.0),
-                          itemCount: products.length,
-                          itemBuilder: (context, index) {
-                            return ProductTile(
-                              product: products[index],
-                              onDelete: (product) =>
-                                  _onConfirmDelete(context, product),
-                              onEdit: (product) =>
-                                  _showProductEditModal(context, product),
-                            );
-                          },
+                            color: ColorsPallete.darkSecondary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            onSelected: (value) {
+                              if (value == 'edit') {
+                                _showProductEditModal(context, product);
+                              } else if (value == 'delete') {
+                                _onConfirmDelete(context, product);
+                              }
+                            },
+                            itemBuilder: (context) => [
+                              const PopupMenuItem(
+                                value: 'edit',
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.edit,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Editar',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const PopupMenuItem(
+                                value: 'delete',
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.delete,
+                                      color: Colors.redAccent,
+                                      size: 20,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Excluir',
+                                      style: TextStyle(color: Colors.redAccent),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                       },
-                    ),
+                    );
+                  },
+                ),
               ),
               const Divider(height: 1, thickness: 0.6, color: Colors.white12),
               Padding(
@@ -176,6 +231,61 @@ class _ProductManagementScreenState extends State<ProductManagementScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+// lib/app/features/product/presentation/product_management_screen/components/product_tile.dart
+
+class ProductTile extends StatelessWidget {
+  final Product product;
+  final Widget? trailing; // Recebe o PopupMenuButton da tela principal
+
+  const ProductTile({
+    super.key,
+    required this.product,
+    this.trailing,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+
+      // Ícone com fundo roxo suave igual ao de usuários
+      leading: CircleAvatar(
+        backgroundColor: ColorsPallete.primaryPurple.withOpacity(0.15),
+        child: Icon(
+          Icons.inventory_2_outlined,
+          color: ColorsPallete.primaryPurple,
+          size: 24,
+        ),
+      ),
+
+      // Nome do Produto
+      title: Text(
+        product.name,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+          fontSize: 16,
+        ),
+      ),
+
+      // Quantidade e Unidade de Medida
+      subtitle: Padding(
+        padding: const EdgeInsets.only(top: 4),
+        child: Text(
+          'Estoque: ${product.quantity} ${product.measureUnit}',
+          style: const TextStyle(
+            color: Colors.white70,
+            fontSize: 13,
+          ),
+        ),
+      ),
+
+      // Os três pontos (PopupMenuButton) injetados pela Screen
+      trailing: trailing,
     );
   }
 }

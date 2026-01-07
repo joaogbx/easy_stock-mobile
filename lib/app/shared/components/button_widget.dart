@@ -11,38 +11,45 @@ class ButtonWidget extends StatelessWidget {
   // Permite que o texto seja customizado, mas mantém 'ADICIONAR' como padrão.
   final String text;
   final bool loading;
+  final Color? color;
+  final EdgeInsetsGeometry? padding;
 
   const ButtonWidget({
     super.key,
     required this.onPressed,
     required this.text,
     this.loading = false,
+    this.color,
+    this.padding,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      // Ação a ser executada
-      onPressed: onPressed,
+    return Padding(
+      padding: padding ?? EdgeInsetsGeometry.all(0),
+      child: ElevatedButton(
+        // Ação a ser executada
+        onPressed: onPressed,
 
-      // Estilo visual global definido aqui
-      style: ElevatedButton.styleFrom(
-        backgroundColor: ColorsPallete.primaryPurple,
-        padding: const EdgeInsets.symmetric(vertical: 14),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+        // Estilo visual global definido aqui
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color ?? ColorsPallete.primaryPurple,
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
         ),
-      ),
-      child: loading
-          ? const CircularProgressIndicator()
-          : Text(
-              text,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+        child: loading
+            ? const CircularProgressIndicator()
+            : Text(
+                text,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
               ),
-            ),
+      ),
     );
   }
 }

@@ -25,7 +25,6 @@ class CompanyExplicationStep extends StatelessWidget {
         children: [
           const Spacer(flex: 1),
 
-          // Ícone com a cor primária
           Icon(
             Icons.storefront,
             size: 80,
@@ -34,7 +33,6 @@ class CompanyExplicationStep extends StatelessWidget {
 
           const SizedBox(height: 30),
 
-          // Título Principal com a cor primária
           Text(
             'Criar: $companyName',
             textAlign: TextAlign.center,

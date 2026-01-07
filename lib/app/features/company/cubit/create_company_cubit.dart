@@ -24,14 +24,16 @@ class CreateCompanyCubit extends Cubit<CreateCompanyState> {
   final ICompanyRepository _iCompanyRepository;
   final IUserRepository _iUserRepository;
 
-  createCompany({required String companyName, required User user}) async {
+  createCompany({
+    required String companyName,
+    required Function() onSuccessCreateCompany,
+  }) async {
     final _appCubit = getIt<AppCubit>();
 
     emit(state.copyWith(loading: true, errorMessage: null));
 
     final result = await _iCompanyRepository.createCompany(
       companyName: companyName,
-      userId: user.id,
     );
 
     if (result.isError) {
@@ -39,19 +41,7 @@ class CreateCompanyCubit extends Cubit<CreateCompanyState> {
     }
 
     if (result.isSuccess) {
-      print(result);
-      final company = result.data as Company;
-      final payload = {'company_id': company.id};
-      final updateUser = await _iUserRepository.updateUser(
-        userId: company.ownerId!,
-        payload: payload,
-      );
-
-      if (updateUser.isSuccess) {
-        _appCubit.setUserLogged(user: updateUser.data);
-      } else {
-        emit(state.copyWith(errorMessage: updateUser.error));
-      }
+      _appCubit.setUserLogged(user: result.data);
     }
 
     emit(state.copyWith(loading: false));

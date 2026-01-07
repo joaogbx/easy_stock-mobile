@@ -1,4 +1,4 @@
-import 'package:easy_stock/app/shared/components/stat_card.dart';
+import 'package:easy_stock/app/features/home/admin/presentation/components/stat_card.dart';
 import 'package:easy_stock/app/features/home/admin/data/model/dashboard_model.dart';
 import 'package:flutter/material.dart';
 
@@ -50,7 +50,7 @@ class DashboardView extends StatelessWidget {
             ),
             StatCard(
               title: 'Último Mês',
-              value: dashboardData?.stockOutCount ?? 0,
+              value: dashboardData?.stockInCount ?? 0,
               icon: Icons.trending_up,
               color: const Color.fromARGB(255, 54, 244, 95),
             ),

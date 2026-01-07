@@ -33,14 +33,9 @@ class AppCubit extends Cubit<AppState> {
 
     if (token != null) {
       // 3. Busca os dados do usuário na rota /me
-      final result = await _iAuthRepository.me();
-
-      if (result.isSuccess) {
-        // Usuário autenticado com sucesso
-        emit(state.copyWith(userlogged: result.data));
-        emit(state.copyWith(loading: false));
-        return; // Sai da função
-      }
+      await loadUser();
+      emit(state.copyWith(loading: false));
+      return;
     }
 
     // 4. Se chegou aqui, é porque não tem token ou o token falhou/expirou
@@ -51,6 +46,13 @@ class AppCubit extends Cubit<AppState> {
 
   void setUserLogged({required User user}) {
     emit(state.copyWith(userlogged: user));
+  }
+
+  Future<void> loadUser() async {
+    final result = await _iAuthRepository.me();
+    if (result.isSuccess) {
+      setUserLogged(user: result.data);
+    }
   }
 
   void logout() async {

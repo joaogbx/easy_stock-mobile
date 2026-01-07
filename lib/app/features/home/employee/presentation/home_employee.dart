@@ -1,8 +1,8 @@
 import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/core/cubit/app_cubit.dart';
-import 'package:easy_stock/app/shared/components/card_action_widget.dart';
+import 'package:easy_stock/app/features/home/admin/presentation/components/card_action_widget.dart';
 import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
-import 'package:easy_stock/app/shared/components/register_movement_button.dart';
+import 'package:easy_stock/app/features/stock/presentation/components/register_movement_button.dart';
 import 'package:easy_stock/app/core/enums/register_mode.dart';
 import 'package:easy_stock/app/shared/screen/movements_screen/movements_screen.dart';
 import 'package:easy_stock/app/shared/theme/colors_pallete.dart';

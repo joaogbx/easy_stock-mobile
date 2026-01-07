@@ -1,5 +1,6 @@
 import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/core/cubit/app_cubit.dart';
+import 'package:easy_stock/app/core/routes/app_routes.dart';
 import 'package:easy_stock/app/features/user/data/model/user_model.dart';
 import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
 import 'package:easy_stock/app/shared/theme/colors_pallete.dart';
@@ -14,6 +15,7 @@ import 'package:easy_stock/app/features/auth/presentation/login/login_screen.dar
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CreateCompanyScreen extends StatefulWidget {
   const CreateCompanyScreen({super.key, required this.user});
@@ -26,6 +28,7 @@ class CreateCompanyScreen extends StatefulWidget {
 
 class _CreateCompanyScreenState extends State<CreateCompanyScreen> {
   final _cubit = getIt<CreateCompanyCubit>();
+  final userLogged = getIt<AppCubit>().state.userlogged;
   final PageController _pageController = PageController();
   int _currentIndex = 0;
   String companyName = '';
@@ -40,21 +43,6 @@ class _CreateCompanyScreenState extends State<CreateCompanyScreen> {
               context: context,
               message: state.errorMessage,
               feedbackType: FeedbackType.error,
-            );
-          }
-
-          if (getIt<AppCubit>().state.userlogged != null) {
-            showSnackBarFeedback(
-              context: context,
-              message: 'Companhia criada com succeso',
-              feedbackType: FeedbackType.success,
-            );
-
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (context) => HomeEmployee(onToggle: () {}),
-              ),
-              (Route<dynamic> route) => false,
             );
           }
         },
@@ -95,7 +83,7 @@ class _CreateCompanyScreenState extends State<CreateCompanyScreen> {
                             createCompany: () {
                               context.read<CreateCompanyCubit>().createCompany(
                                 companyName: companyName,
-                                user: widget.user,
+                                onSuccessCreateCompany: onSuccessCreateCompany,
                               );
                             },
                           ),
@@ -161,5 +149,9 @@ class _CreateCompanyScreenState extends State<CreateCompanyScreen> {
         ),
       ),
     );
+  }
+
+  void onSuccessCreateCompany() {
+    AppRoutes.router.go(AppRoutes.homeAdmin);
   }
 }

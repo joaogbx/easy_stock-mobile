@@ -37,7 +37,7 @@ import 'package:easy_stock/app/features/company/data/repository/company_reposito
     as _i570;
 import 'package:easy_stock/app/features/company/domain/i_company_repository.dart'
     as _i934;
-import 'package:easy_stock/app/features/home/admin/cubit/home_admin_cubit.dart'
+import 'package:easy_stock/app/features/home/admin/presentation/cubit/home_admin_cubit.dart'
     as _i952;
 import 'package:easy_stock/app/features/home/admin/data/datasource/dashboard_datasource.dart'
     as _i836;
@@ -71,6 +71,8 @@ import 'package:easy_stock/app/features/user/data/repository/user_repository.dar
     as _i491;
 import 'package:easy_stock/app/features/user/domain/i_user_repository.dart'
     as _i471;
+import 'package:easy_stock/app/features/user/presentation/edit_user_bottom_sheet/cubit/edit_user_cubit.dart'
+    as _i573;
 import 'package:easy_stock/app/shared/screen/movements_screen/cubit/historical_cubit.dart'
     as _i1023;
 import 'package:get_it/get_it.dart' as _i174;
@@ -130,6 +132,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i934.ICompanyRepository>(
       () => _i570.CompanyRepository(gh<_i1059.CompanyDatasource>()),
+    );
+    gh.factory<_i573.EditUserCubit>(
+      () => _i573.EditUserCubit(gh<_i471.IUserRepository>()),
     );
     gh.factory<_i816.GetProductListUc>(
       () => _i816.GetProductListUc(gh<_i621.IProductRepository>()),

@@ -2,6 +2,7 @@ import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/core/cubit/app_cubit.dart';
 import 'package:easy_stock/app/features/auth/presentation/login/login_screen.dart';
 import 'package:easy_stock/app/features/user/presentation/edit_user_bottom_sheet/edit_user_bottom_sheet.dart';
+import 'package:easy_stock/app/shared/components/drag_handle.dart';
 import 'package:flutter/material.dart';
 
 // Constantes de estilo centralizadas
@@ -20,11 +21,12 @@ class UserConfigSheet extends StatelessWidget {
     final user = appCubit.state.userlogged!;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(22, 30, 22, 10),
+      padding: const EdgeInsets.fromLTRB(22, 0, 22, 10),
       child: Column(
         mainAxisSize: MainAxisSize.min, // Otimiza espaço para BottomSheet
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          DragHandle(),
           const _SectionHeader(title: 'Informações do Usuário'),
           const SizedBox(height: 15),
 
@@ -78,8 +80,8 @@ class UserConfigSheet extends StatelessWidget {
               context: context,
               builder: (context) {
                 return UserEditBottomSheet(
-                  currentEmail: 'teste',
-                  currentName: 'dads',
+                  currentEmail: user.email,
+                  currentName: user.name,
                 );
               },
             ),

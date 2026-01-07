@@ -14,30 +14,62 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$EditUserState {
 
-
+ bool get loading; String? get errorMessage;
+/// Create a copy of EditUserState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$EditUserStateCopyWith<EditUserState> get copyWith => _$EditUserStateCopyWithImpl<EditUserState>(this as EditUserState, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EditUserState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EditUserState&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,loading,errorMessage);
 
 @override
 String toString() {
-  return 'EditUserState()';
+  return 'EditUserState(loading: $loading, errorMessage: $errorMessage)';
 }
 
 
 }
 
 /// @nodoc
-class $EditUserStateCopyWith<$Res>  {
-$EditUserStateCopyWith(EditUserState _, $Res Function(EditUserState) __);
+abstract mixin class $EditUserStateCopyWith<$Res>  {
+  factory $EditUserStateCopyWith(EditUserState value, $Res Function(EditUserState) _then) = _$EditUserStateCopyWithImpl;
+@useResult
+$Res call({
+ bool loading, String? errorMessage
+});
+
+
+
+
+}
+/// @nodoc
+class _$EditUserStateCopyWithImpl<$Res>
+    implements $EditUserStateCopyWith<$Res> {
+  _$EditUserStateCopyWithImpl(this._self, this._then);
+
+  final EditUserState _self;
+  final $Res Function(EditUserState) _then;
+
+/// Create a copy of EditUserState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? loading = null,Object? errorMessage = freezed,}) {
+  return _then(_self.copyWith(
+loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
+as bool,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
 }
 
 
@@ -119,10 +151,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function()?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool loading,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EditUserState() when $default != null:
-return $default();case _:
+return $default(_that.loading,_that.errorMessage);case _:
   return orElse();
 
 }
@@ -140,10 +172,10 @@ return $default();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function()  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool loading,  String? errorMessage)  $default,) {final _that = this;
 switch (_that) {
 case _EditUserState():
-return $default();case _:
+return $default(_that.loading,_that.errorMessage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -160,10 +192,10 @@ return $default();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function()?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool loading,  String? errorMessage)?  $default,) {final _that = this;
 switch (_that) {
 case _EditUserState() when $default != null:
-return $default();case _:
+return $default(_that.loading,_that.errorMessage);case _:
   return null;
 
 }
@@ -175,32 +207,68 @@ return $default();case _:
 
 
 class _EditUserState implements EditUserState {
-   _EditUserState();
+   _EditUserState({this.loading = false, this.errorMessage});
   
 
+@override@JsonKey() final  bool loading;
+@override final  String? errorMessage;
 
-
+/// Create a copy of EditUserState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$EditUserStateCopyWith<_EditUserState> get copyWith => __$EditUserStateCopyWithImpl<_EditUserState>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EditUserState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EditUserState&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,loading,errorMessage);
 
 @override
 String toString() {
-  return 'EditUserState()';
+  return 'EditUserState(loading: $loading, errorMessage: $errorMessage)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class _$EditUserStateCopyWith<$Res> implements $EditUserStateCopyWith<$Res> {
+  factory _$EditUserStateCopyWith(_EditUserState value, $Res Function(_EditUserState) _then) = __$EditUserStateCopyWithImpl;
+@override @useResult
+$Res call({
+ bool loading, String? errorMessage
+});
 
 
+
+
+}
+/// @nodoc
+class __$EditUserStateCopyWithImpl<$Res>
+    implements _$EditUserStateCopyWith<$Res> {
+  __$EditUserStateCopyWithImpl(this._self, this._then);
+
+  final _EditUserState _self;
+  final $Res Function(_EditUserState) _then;
+
+/// Create a copy of EditUserState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? loading = null,Object? errorMessage = freezed,}) {
+  return _then(_EditUserState(
+loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
+as bool,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
 
 // dart format on
