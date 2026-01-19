@@ -5,7 +5,6 @@ import 'package:easy_stock/app/features/user/data/model/user_model.dart';
 import 'package:easy_stock/app/features/auth/domain/i_auth_repository.dart';
 import 'package:easy_stock/app/core/infra/storage/i_secure_storage_service.dart';
 import 'package:easy_stock/app/core/result/result.dart';
-import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 

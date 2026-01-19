@@ -13,7 +13,7 @@ import 'package:easy_stock/app/features/user/data/model/user_model.dart';
 import 'package:easy_stock/app/features/user/presentation/user_management_screen.dart';
 import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
 import 'package:easy_stock/app/shared/screen/splash_screen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/login/login_screen.dart';
 

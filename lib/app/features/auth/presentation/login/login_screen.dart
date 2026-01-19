@@ -8,7 +8,6 @@ import 'package:easy_stock/app/features/company/presentation/screens/create_comp
 import 'package:easy_stock/app/features/home/employee/presentation/home_employee.dart';
 import 'package:easy_stock/app/features/auth/presentation/login/cubit/auth_cubit.dart';
 import 'package:easy_stock/app/features/auth/presentation/create_user/create_account_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -121,12 +120,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () async {
-                              //  if (_formKey.currentState!.validate()) {
-                              context.read<AuthCubit>().autenticate(
-                                email: emailController.text,
-                                password: passwordController.text,
-                              );
-                              // }
+                              if (_formKey.currentState!.validate()) {
+                                context.read<AuthCubit>().autenticate(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                );
+                              }
                             },
                             child: loading
                                 ? CircularProgressIndicator()

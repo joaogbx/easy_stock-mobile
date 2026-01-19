@@ -1,10 +1,6 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-//final apiUrl = 'http://192.168.0.146:3000';
-
-//final apiUrl = 'http://20.11.91.40:3000';
-
-//const apiUrl = 'http://localhost:3000';
-
-const apiUrl = 'https://easy-stock-apiserver.onrender.com';
+String get apiUrl => dotenv.env['API_URL'] ?? 'http://localhost:3000';
+int get apiTimeout => int.tryParse(dotenv.env['API_TIMEOUT'] ?? '10') ?? 10;
+bool get isDebugMode => dotenv.env['DEBUG_MODE']?.toLowerCase() == 'true';
+String get environment => dotenv.env['ENVIRONMENT'] ?? 'development';

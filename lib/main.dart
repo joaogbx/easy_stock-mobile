@@ -13,8 +13,12 @@ import 'package:easy_stock/app/features/home/admin/presentation/home_admin_scree
 import 'package:easy_stock/app/features/home/employee/presentation/home_employee.dart';
 import 'package:easy_stock/app/features/auth/presentation/login/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+  
   configureDependencies();
   FlutterError.onError = (details) {
     FlutterError.dumpErrorToConsole(details);

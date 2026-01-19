@@ -8,15 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_stock/app/shared/theme/colors_pallete.dart';
 import 'package:intl/intl.dart';
 
-class MyWidget extends StatelessWidget {
-  const MyWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-
 class HistoricalMovementScreen extends StatefulWidget {
   const HistoricalMovementScreen({
     super.key,
@@ -32,15 +23,12 @@ class _HistoricalMovementScreenState extends State<HistoricalMovementScreen> {
   final _appCubit = getIt<AppCubit>();
   final DateFormat _dateFormat = DateFormat('dd/MM/yyyy');
 
-  // Estado para o filtro de datas
   DateTime? _startDate;
   DateTime? _endDate;
 
   @override
   void initState() {
     super.initState();
-    // Inicia o carregamento dos dados.
-    // O Cubit deve aplicar o filtro de Role do usuário por padrão.
     _cubit.initData();
   }
 
@@ -64,7 +52,6 @@ class _HistoricalMovementScreenState extends State<HistoricalMovementScreen> {
           builder: (context, state) {
             final stockMovements = state.stockMovements;
 
-            // Verifica se o filtro de data está ativo (SÓ IMPORTA SE FOR ADMIN)
             bool isFilteredByDate = _startDate != null && _endDate != null;
 
             List<Widget> actions = [];
@@ -87,27 +74,22 @@ class _HistoricalMovementScreenState extends State<HistoricalMovementScreen> {
               );
             }
 
-            // 2. Lógica para o título da AppBar (Condicional)
             String appbarTitle;
             if (isAdmin && isFilteredByDate) {
-              // Admin com filtro ativo
               appbarTitle =
                   '${_dateFormat.format(_startDate!)} - ${_dateFormat.format(_endDate!)}';
             } else if (isAdmin) {
-              // Admin sem filtro (vendo todos os movimentos)
               appbarTitle = 'Movimentações (Geral)';
             } else {
-              // Usuário Comum
               appbarTitle = 'Minhas Movimentações';
             }
 
-            // --- TELAS DE LOADING E VAZIO ---
             if (state.loading) {
               return Scaffold(
                 backgroundColor: ColorsPallete.darkBackground,
                 appBar: AppbarWidget(
                   text: appbarTitle,
-                  actions: actions, // Passa as ações
+                  actions: actions,
                 ),
                 body: Center(
                   child: CircularProgressIndicator(
@@ -122,7 +104,7 @@ class _HistoricalMovementScreenState extends State<HistoricalMovementScreen> {
                 backgroundColor: ColorsPallete.darkBackground,
                 appBar: AppbarWidget(
                   text: appbarTitle,
-                  actions: actions, // Passa as ações
+                  actions: actions,
                 ),
                 body: Center(
                   child: Text(
@@ -139,12 +121,11 @@ class _HistoricalMovementScreenState extends State<HistoricalMovementScreen> {
               );
             }
 
-            // --- LISTA PRINCIPAL ---
             return Scaffold(
               backgroundColor: ColorsPallete.darkBackground,
               appBar: AppbarWidget(
                 text: appbarTitle,
-                actions: actions, // Passa as ações
+                actions: actions,
               ),
               body: Container(
                 padding: const EdgeInsets.only(top: 8.0),
@@ -219,7 +200,6 @@ class _HistoricalMovementScreenState extends State<HistoricalMovementScreen> {
     );
   }
 
-  // Método para mostrar o seletor de intervalo de datas (Só para Admin)
   Future<void> _showDateRangePicker() async {
     final DateTimeRange? picked = await showDateRangePicker(
       context: context,
@@ -255,13 +235,11 @@ class _HistoricalMovementScreenState extends State<HistoricalMovementScreen> {
     }
   }
 
-  // Método para limpar os filtros (Só para Admin)
   void _clearFilters() {
     setState(() {
       _startDate = null;
       _endDate = null;
     });
-    // Recarrega os dados sem filtro de data
     _cubit.initData();
   }
 }

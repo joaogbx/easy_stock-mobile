@@ -9,7 +9,6 @@ import 'package:easy_stock/app/shared/components/input_select.dart';
 import 'package:easy_stock/app/shared/theme/colors_pallete.dart';
 import 'package:easy_stock/app/features/stock/presentation/bottom_sheets/register_movement/cubit/register_movement_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterMovementBottomSheet extends StatefulWidget {

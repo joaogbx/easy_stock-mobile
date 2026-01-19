@@ -8,7 +8,6 @@ import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
 import 'package:easy_stock/app/shared/components/user_avatar.dart';
 import 'package:easy_stock/app/shared/theme/colors_pallete.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class UsersListView extends StatefulWidget {
   final List<User> users;

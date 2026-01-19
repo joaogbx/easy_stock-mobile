@@ -17,8 +17,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      elevation: 0, // Remove a sombra ao rolar
-      scrolledUnderElevation: 0,
+      elevation: 0,       scrolledUnderElevation: 0,
       title: Text(
         text,
         style: TextStyle(color: textColor, fontWeight: FontWeight.bold),

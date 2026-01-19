@@ -5,7 +5,6 @@ import 'package:easy_stock/app/shared/components/input_select.dart';
 import 'package:easy_stock/app/shared/theme/colors_pallete.dart';
 import 'package:easy_stock/app/features/product/presentation/product_management_screen/cubit/product_management_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductAddBottomSheet extends StatefulWidget {

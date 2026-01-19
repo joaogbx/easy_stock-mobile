@@ -12,7 +12,7 @@ abstract class NetworkModule {
     final dio = Dio(
       BaseOptions(
         baseUrl: apiUrl,
-        connectTimeout: const Duration(seconds: 10),
+        connectTimeout: Duration(seconds: apiTimeout),
       ),
     );
     dio.interceptors.add(authInterceptor);
