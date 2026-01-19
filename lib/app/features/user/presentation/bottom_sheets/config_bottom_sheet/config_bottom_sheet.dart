@@ -1,8 +1,12 @@
 import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/core/cubit/app_cubit.dart';
 import 'package:easy_stock/app/features/auth/presentation/login/login_screen.dart';
-import 'package:easy_stock/app/features/user/presentation/edit_user_bottom_sheet/edit_user_bottom_sheet.dart';
+import 'package:easy_stock/app/features/user/data/model/user_model.dart';
+import 'package:easy_stock/app/features/user/presentation/bottom_sheets/edit_user_bottom_sheet/edit_user_bottom_sheet.dart';
+import 'package:easy_stock/app/shared/components/base_bottom_sheet.dart';
+import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
 import 'package:easy_stock/app/shared/components/drag_handle.dart';
+import 'package:easy_stock/app/shared/components/user_avatar.dart';
 import 'package:flutter/material.dart';
 
 // Constantes de estilo centralizadas
@@ -12,21 +16,23 @@ const kSecondaryAccent = Color(0xFF9E00FF);
 const kRedColor = Color(0xFFDC3545);
 const kCardBackground = Color(0xFF2C2C2C);
 
-class UserConfigSheet extends StatelessWidget {
+class UserConfigSheet extends StatefulWidget {
   const UserConfigSheet({super.key});
 
   @override
+  State<UserConfigSheet> createState() => _UserConfigSheetState();
+}
+
+class _UserConfigSheetState extends State<UserConfigSheet> {
+  final appCubit = getIt<AppCubit>();
+  @override
   Widget build(BuildContext context) {
-    final appCubit = getIt<AppCubit>();
     final user = appCubit.state.userlogged!;
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(22, 0, 22, 10),
+    return BaseBottomSheet(
       child: Column(
-        mainAxisSize: MainAxisSize.min, // Otimiza espaço para BottomSheet
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          DragHandle(),
           const _SectionHeader(title: 'Informações do Usuário'),
           const SizedBox(height: 15),
 
@@ -39,14 +45,9 @@ class UserConfigSheet extends StatelessWidget {
             ),
             child: Row(
               children: [
-                CircleAvatar(
-                  radius: 30,
-                  backgroundColor: kAccentColor.withOpacity(0.1),
-                  child: const Icon(
-                    Icons.person_outline,
-                    size: 35,
-                    color: kAccentColor,
-                  ),
+                UserAvatar(
+                  name: user.name[0],
+                  radius: 22,
                 ),
                 const SizedBox(width: 15),
                 Column(
@@ -76,28 +77,16 @@ class UserConfigSheet extends StatelessWidget {
           const SizedBox(height: 15),
           _ActionButton(
             label: 'Editar Perfil',
-            onPressed: () => showModalBottomSheet(
-              context: context,
-              builder: (context) {
-                return UserEditBottomSheet(
-                  currentEmail: user.email,
-                  currentName: user.name,
-                );
-              },
-            ),
+            onPressed: () async {
+              await _showEditUserBottomSheet(user: user);
+              setState(() {});
+            },
             color: kAccentColor,
           ),
 
           const SizedBox(height: 30),
           const _SectionHeader(title: 'Configurações da Conta'),
           const SizedBox(height: 15),
-
-          _MenuOption(
-            label: 'Mudar Senha',
-            icon: Icons.lock_outline,
-            iconColor: kSecondaryAccent,
-            onPressed: () => print('Mudar Senha'),
-          ),
 
           const SizedBox(height: 10),
           _MenuOption(
@@ -117,9 +106,31 @@ class UserConfigSheet extends StatelessWidget {
       ),
     );
   }
-}
 
-// --- Sub-widgets para Otimização ---
+  _showEditUserBottomSheet({required User user}) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return UserEditBottomSheet(
+          user: user,
+          onSuccess: onSuccess,
+        );
+      },
+    );
+  }
+
+  void onSuccess() {
+    Navigator.of(context).pop();
+    Navigator.of(context).pop(true);
+
+    showSnackBarFeedback(
+      context: context,
+      message: 'Usuário atualizado com sucesso!',
+      feedbackType: FeedbackType.success,
+    );
+  }
+}
 
 class _SectionHeader extends StatelessWidget {
   final String title;

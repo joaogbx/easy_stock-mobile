@@ -26,12 +26,8 @@ class CompanyRepository implements ICompanyRepository {
 
       return Result.success(User.fromJson(response['data']['user']));
     } on DioException catch (error) {
-      print('REPOSITORY: ${error}');
-      return Result.error(
-        error.response?.data['error']['message'] ?? 'Erro ao criar companhia',
-      );
+      return Result.error(error.message);
     } catch (error) {
-      print('REPOSITORY222222: ${error}');
       return Result.error('Erro ao Criar usuário, $error');
     }
   }

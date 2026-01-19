@@ -55,7 +55,7 @@ class CustomSelectInput<T> extends StatelessWidget {
       style: const TextStyle(color: Colors.white), // Ajuste conforme seu tema
       decoration: InputDecoration(
         labelText: labelText,
-        prefixIcon: Icon(prefixIcon, color: ColorsPallete.primaryPurple),
+        prefixIcon: Icon(prefixIcon),
         suffixIcon: const Icon(Icons.keyboard_arrow_down),
         border: const OutlineInputBorder(), // Estilo nativo do TextFormField
         // Se quiser usar o fundo escuro que você tinha antes:

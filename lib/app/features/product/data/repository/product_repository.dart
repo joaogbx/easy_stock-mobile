@@ -26,7 +26,7 @@ class ProductRepository implements IProductRepository {
 
       return Result.success(products);
     } on DioException catch (error) {
-      return Result.error('Erro ao buscar produtos, ${error.response}');
+      return Result.error(error.message);
     } catch (error) {
       return Result.error('Erro desconhecido ao buscar produtos, $error');
     }
@@ -45,7 +45,7 @@ class ProductRepository implements IProductRepository {
 
       return Result.success(Product.fromJson(response['data']));
     } on DioException catch (error) {
-      return Result.error('Erro ao criar produto, ${error.response}');
+      return Result.error(error.message);
     } catch (error) {
       return Result.error('Erro desconhecido ao criar produto, $error');
     }
@@ -66,7 +66,7 @@ class ProductRepository implements IProductRepository {
 
       return Result.success(Product.fromJson(response['data']));
     } on DioException catch (error) {
-      return Result.error('Erro ao atualizar produto, ${error.response}');
+      return Result.error(error.message);
     } catch (error) {
       return Result.error('Erro desconhecido ao atualizar produto, $error');
     }
@@ -81,7 +81,7 @@ class ProductRepository implements IProductRepository {
       // Retorna sucesso com um valor booleano ou string de confirmação
       return Result.success('Produto deletado com sucesso');
     } on DioException catch (error) {
-      return Result.error('Erro ao deletar produto, ${error.response}');
+      return Result.error(error.message);
     } catch (error) {
       return Result.error('Erro desconhecido ao deletar produto, $error');
     }

@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
-import 'package:easy_stock/app/core/constants.dart';
-import 'package:easy_stock/app/features/auth/utils/auth_interceptor.dart';
+
+import 'package:easy_stock/app/core/utils/auth_interceptor.dart';
+import 'package:easy_stock/app/core/utils/error_interceptor.dart';
+import 'package:easy_stock/application.dart';
 import 'package:injectable/injectable.dart';
 
 @module
 abstract class NetworkModule {
   @lazySingleton
-  Dio dio(AuthInterceptor authInterceptor) {
+  Dio dio(AuthInterceptor authInterceptor, ErrorInterceptor errorInterceptor) {
     final dio = Dio(
       BaseOptions(
         baseUrl: apiUrl,
@@ -14,6 +16,7 @@ abstract class NetworkModule {
       ),
     );
     dio.interceptors.add(authInterceptor);
+    dio.interceptors.add(errorInterceptor);
     return dio;
   }
 }

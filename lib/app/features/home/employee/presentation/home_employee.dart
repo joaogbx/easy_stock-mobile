@@ -1,201 +1,125 @@
-import 'package:easy_stock/app/core/config/injection.dart';
-import 'package:easy_stock/app/core/cubit/app_cubit.dart';
-import 'package:easy_stock/app/features/home/admin/presentation/components/card_action_widget.dart';
-import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
-import 'package:easy_stock/app/features/stock/presentation/components/register_movement_button.dart';
-import 'package:easy_stock/app/core/enums/register_mode.dart';
-import 'package:easy_stock/app/shared/screen/movements_screen/movements_screen.dart';
-import 'package:easy_stock/app/shared/theme/colors_pallete.dart';
-import 'package:easy_stock/app/features/user/presentation/config_bottom_sheet/config_bottom_sheet.dart';
-import 'package:easy_stock/app/features/home/employee/cubit/home_cubit.dart';
-import 'package:easy_stock/app/features/home/employee/presentation/views/movements_preview_widget.dart';
-import 'package:easy_stock/app/features/stock/presentation/bottom_sheets/register_movement/register_movement_bottom_sheet.dart';
-
-import 'package:easy_stock/app/features/stock/presentation/stock_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:easy_stock/app/shared/theme/colors_pallete.dart'; // Ajuste o import
 
-class HomeEmployee extends StatefulWidget {
-  final Function() onToggle;
-  HomeEmployee({super.key, required this.onToggle});
-
-  @override
-  State<HomeEmployee> createState() => _HomeEmployeeState();
-}
-
-class _HomeEmployeeState extends State<HomeEmployee> {
-  final appCubit = getIt<AppCubit>();
-  final _cubit = getIt<HomeCubit>();
+class HomeEmployeeSkeleton extends StatelessWidget {
+  const HomeEmployeeSkeleton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final userName = appCubit.state.userlogged!.name;
-    final userRole = appCubit.state.userlogged!.role;
+    return Shimmer.fromColors(
+      baseColor: ColorsPallete.darkSecondary,
+      highlightColor: ColorsPallete.primaryPurple.withOpacity(0.1),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: 40),
 
-    return BlocProvider(
-      create: (context) => _cubit,
-      child: BlocBuilder<HomeCubit, HomeState>(
-        builder: (context, state) {
-          final stockMovements = state.stockMovements;
-          return Scaffold(
-            backgroundColor: const Color.fromARGB(255, 20, 20, 20),
-            body: RefreshIndicator(
-              color: const Color.fromARGB(255, 83, 22, 119),
-              backgroundColor: const Color.fromARGB(
-                255,
-                31,
-                31,
-                31,
-              ),
-              displacement: 40,
-              strokeWidth: 3,
-              onRefresh: () async {
-                _cubit.initData();
-              },
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SizedBox(height: 20),
-
-                      Stack(
-                        children: [
-                          Row(
-                            children: [
-                              CircleAvatar(radius: 40),
-                              SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    userName,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                    ),
-                                  ),
-                                  Text(
-                                    userRole,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: IconButton(
-                              icon: Icon(Icons.settings, color: Colors.white),
-                              onPressed: () {
-                                showModalBottomSheet(
-                                  backgroundColor: const Color.fromARGB(
-                                    255,
-                                    20,
-                                    20,
-                                    20,
-                                  ),
-                                  context: context,
-                                  builder: (context) {
-                                    return UserConfigSheet();
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 30),
-                      Text(
-                        'Ações Rápidas',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      RegisterMovementButton(
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            backgroundColor: ColorsPallete.darkBackground,
-                            builder: (ctx) => RegisterMovementBottomSheet(
-                              registerMode: RegisterMode.stockIn,
-                              refresh: () {},
-                            ),
-                          );
-                        },
-                        registerMode: RegisterMode.stockIn,
-                      ),
-                      SizedBox(height: 12),
-                      RegisterMovementButton(
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            backgroundColor: ColorsPallete.darkBackground,
-                            builder: (ctx) => RegisterMovementBottomSheet(
-                              registerMode: RegisterMode.stockOut,
-                              refresh: () {},
-                            ),
-                          );
-                        },
-                        registerMode: RegisterMode.stockOut,
-                      ),
-                      SizedBox(height: 30),
-                      Text(
-                        'Consultas',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      CardActionWidget(
-                        icon: Icons.inventory_2_outlined,
-                        title: 'Estoque Atual',
-                        subtitle: 'Visualize o saldo de todos os produtos.',
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => StockScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(height: 16),
-                      if (stockMovements != null)
-                        MovementsPreviewWidget(stockMovements: stockMovements),
-                      SizedBox(height: 16),
-                      CardActionWidget(
-                        icon: Icons.history_toggle_off,
-                        title: 'Ver todas as movimentações',
-                        subtitle:
-                            'Acompanhe seus registros de Entrada e Saída.',
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HistoricalMovementScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(height: 24),
-                    ],
-                  ),
+            // 🏛️ Skeleton Nome da Empresa
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                width: 150,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
             ),
-          );
-        },
+
+            const SizedBox(height: 20),
+
+            // 👤 Skeleton Header do Usuário
+            Row(
+              children: [
+                const CircleAvatar(radius: 35, backgroundColor: Colors.black),
+                const SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 120,
+                      height: 22,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Container(
+                      width: 80,
+                      height: 15,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 30),
+
+            // ⚡ Ações Rápidas (Título)
+            _buildSectionTitle(),
+            const SizedBox(height: 12),
+            _buildSkeletonButton(), // Botão Entrada
+            const SizedBox(height: 12),
+            _buildSkeletonButton(), // Botão Saída
+
+            const SizedBox(height: 30),
+
+            // 🔍 Consultas (Título)
+            _buildSectionTitle(),
+            const SizedBox(height: 12),
+            _buildSkeletonCard(), // Estoque Atual
+            const SizedBox(height: 10),
+            _buildSkeletonCard(height: 150), // Preview Movimentações (maior)
+            const SizedBox(height: 16),
+            _buildSkeletonCard(), // Histórico Completo
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Helper para Títulos de Seção
+  Widget _buildSectionTitle() {
+    return Container(
+      width: 100,
+      height: 24,
+      margin: const EdgeInsets.only(right: 250),
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(6),
+      ),
+    );
+  }
+
+  // Helper para Botões (RegisterMovementButton)
+  Widget _buildSkeletonButton() {
+    return Container(
+      height: 60, // Altura aproximada do seu botão de ação
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(16), // Seguindo o padrão de botões
+      ),
+    );
+  }
+
+  // Helper para Cards (CardActionWidget / Preview)
+  Widget _buildSkeletonCard({double height = 80}) {
+    return Container(
+      height: height,
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(
+          28,
+        ), // O "Quadrado Arredondado" da logo
       ),
     );
   }

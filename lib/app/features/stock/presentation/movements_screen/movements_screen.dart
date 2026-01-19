@@ -1,18 +1,23 @@
 import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/core/cubit/app_cubit.dart';
 import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
-import 'package:easy_stock/app/shared/screen/movements_screen/cubit/historical_cubit.dart';
+import 'package:easy_stock/app/features/stock/presentation/movements_screen/cubit/historical_cubit.dart';
 import 'package:easy_stock/app/shared/components/appbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_stock/app/shared/theme/colors_pallete.dart';
 import 'package:intl/intl.dart';
 
-// A classe unificada é um StatefulWidget para gerenciar o estado da data de filtro.
-class HistoricalMovementScreen extends StatefulWidget {
-  // Parâmetro para diferenciar Admin (true) de Usuário Comum (false).
-  // Se for Admin, mostra os botões de filtro e usa um título mais genérico.
+class MyWidget extends StatelessWidget {
+  const MyWidget({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+class HistoricalMovementScreen extends StatefulWidget {
   const HistoricalMovementScreen({
     super.key,
   });
@@ -36,55 +41,6 @@ class _HistoricalMovementScreenState extends State<HistoricalMovementScreen> {
     super.initState();
     // Inicia o carregamento dos dados.
     // O Cubit deve aplicar o filtro de Role do usuário por padrão.
-    _cubit.initData();
-  }
-
-  // Método para mostrar o seletor de intervalo de datas (Só para Admin)
-  Future<void> _showDateRangePicker() async {
-    final DateTimeRange? picked = await showDateRangePicker(
-      context: context,
-      firstDate: DateTime(2021),
-      lastDate: DateTime.now(),
-      initialDateRange: _startDate != null && _endDate != null
-          ? DateTimeRange(start: _startDate!, end: _endDate!)
-          : null,
-      confirmText: 'Aplicar',
-      builder: (context, child) {
-        return child!;
-      },
-    );
-
-    if (picked != null) {
-      setState(() {
-        _startDate = picked.start;
-        _endDate = DateTime(
-          picked.end.year,
-          picked.end.month,
-          picked.end.day,
-          23,
-          59,
-          59,
-          999,
-        );
-      });
-
-      // Aqui, o Cubit seria chamado com o filtro de data:
-      // EXEMPLO: _cubit.fetchMovementsByDate(_startDate!, _endDate!);
-      // Por enquanto, recarrega os dados base:
-      _cubit.getAllStockMovements(
-        startDate: _startDate!.toIso8601String(),
-        endDate: _endDate!.toIso8601String(),
-      );
-    }
-  }
-
-  // Método para limpar os filtros (Só para Admin)
-  void _clearFilters() {
-    setState(() {
-      _startDate = null;
-      _endDate = null;
-    });
-    // Recarrega os dados sem filtro de data
     _cubit.initData();
   }
 
@@ -211,8 +167,9 @@ class _HistoricalMovementScreenState extends State<HistoricalMovementScreen> {
                           ? Colors.greenAccent.shade400
                           : Colors.redAccent.shade400;
 
-                      // Se você precisar exibir a data e hora:
-                      // final formattedDate = DateFormat('dd/MM/yyyy HH:mm').format(item.createdAt);
+                      final formattedDate = DateFormat(
+                        'dd/MM/yyyy HH:mm',
+                      ).format(item.createdAt);
 
                       return ListTile(
                         tileColor: ColorsPallete.darkBackground,
@@ -234,13 +191,14 @@ class _HistoricalMovementScreenState extends State<HistoricalMovementScreen> {
                             ).textTheme.titleMedium?.color,
                           ),
                         ),
-                        // Subtitle opcional para mostrar a data:
-                        /*
+
                         subtitle: Text(
-                            formattedDate,
-                            style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color),
+                          formattedDate,
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.bodySmall?.color,
+                          ),
                         ),
-                        */
+
                         trailing: Text(
                           '${isEntry ? '+' : '-'}${item.quantity}',
                           style: TextStyle(
@@ -259,5 +217,51 @@ class _HistoricalMovementScreenState extends State<HistoricalMovementScreen> {
         ),
       ),
     );
+  }
+
+  // Método para mostrar o seletor de intervalo de datas (Só para Admin)
+  Future<void> _showDateRangePicker() async {
+    final DateTimeRange? picked = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(2021),
+      lastDate: DateTime.now(),
+      initialDateRange: _startDate != null && _endDate != null
+          ? DateTimeRange(start: _startDate!, end: _endDate!)
+          : null,
+      confirmText: 'Aplicar',
+      builder: (context, child) {
+        return child!;
+      },
+    );
+
+    if (picked != null) {
+      setState(() {
+        _startDate = picked.start;
+        _endDate = DateTime(
+          picked.end.year,
+          picked.end.month,
+          picked.end.day,
+          23,
+          59,
+          59,
+          999,
+        );
+      });
+
+      _cubit.getAllStockMovements(
+        startDate: _startDate!.toIso8601String(),
+        endDate: _endDate!.toIso8601String(),
+      );
+    }
+  }
+
+  // Método para limpar os filtros (Só para Admin)
+  void _clearFilters() {
+    setState(() {
+      _startDate = null;
+      _endDate = null;
+    });
+    // Recarrega os dados sem filtro de data
+    _cubit.initData();
   }
 }

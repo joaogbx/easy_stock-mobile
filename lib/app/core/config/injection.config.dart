@@ -17,6 +17,8 @@ import 'package:easy_stock/app/core/infra/storage/secure_storage_service.dart'
     as _i916;
 import 'package:easy_stock/app/core/network/network_module.dart' as _i323;
 import 'package:easy_stock/app/core/usecases/get_product_list_uc.dart' as _i816;
+import 'package:easy_stock/app/core/utils/auth_interceptor.dart' as _i976;
+import 'package:easy_stock/app/core/utils/error_interceptor.dart' as _i731;
 import 'package:easy_stock/app/features/auth/data/datasources/auth_datasource.dart'
     as _i94;
 import 'package:easy_stock/app/features/auth/data/repository/auth_repository.dart'
@@ -27,8 +29,6 @@ import 'package:easy_stock/app/features/auth/presentation/create_user/cubit/crea
     as _i826;
 import 'package:easy_stock/app/features/auth/presentation/login/cubit/auth_cubit.dart'
     as _i193;
-import 'package:easy_stock/app/features/auth/utils/auth_interceptor.dart'
-    as _i557;
 import 'package:easy_stock/app/features/company/cubit/create_company_cubit.dart'
     as _i278;
 import 'package:easy_stock/app/features/company/data/datasource/company_datasource.dart'
@@ -37,14 +37,14 @@ import 'package:easy_stock/app/features/company/data/repository/company_reposito
     as _i570;
 import 'package:easy_stock/app/features/company/domain/i_company_repository.dart'
     as _i934;
-import 'package:easy_stock/app/features/home/admin/presentation/cubit/home_admin_cubit.dart'
-    as _i952;
 import 'package:easy_stock/app/features/home/admin/data/datasource/dashboard_datasource.dart'
     as _i836;
 import 'package:easy_stock/app/features/home/admin/data/repository/dashboard_repository.dart'
     as _i346;
 import 'package:easy_stock/app/features/home/admin/domain/i_dashboard_repository.dart'
     as _i76;
+import 'package:easy_stock/app/features/home/admin/presentation/cubit/home_admin_cubit.dart'
+    as _i553;
 import 'package:easy_stock/app/features/home/employee/cubit/home_cubit.dart'
     as _i484;
 import 'package:easy_stock/app/features/product/data/datasource/product_datasource.dart'
@@ -71,9 +71,13 @@ import 'package:easy_stock/app/features/user/data/repository/user_repository.dar
     as _i491;
 import 'package:easy_stock/app/features/user/domain/i_user_repository.dart'
     as _i471;
-import 'package:easy_stock/app/features/user/presentation/edit_user_bottom_sheet/cubit/edit_user_cubit.dart'
-    as _i573;
-import 'package:easy_stock/app/shared/screen/movements_screen/cubit/historical_cubit.dart'
+import 'package:easy_stock/app/features/user/presentation/bottom_sheets/edit_user_bottom_sheet/cubit/edit_user_cubit.dart'
+    as _i83;
+import 'package:easy_stock/app/features/user/presentation/bottom_sheets/user_add_bottom_sheet/cubit/user_add_cubit.dart'
+    as _i575;
+import 'package:easy_stock/app/features/user/presentation/cubit/user_management_cubit.dart'
+    as _i853;
+import 'package:easy_stock/app/features/stock/presentation/movements_screen/cubit/historical_cubit.dart'
     as _i1023;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -86,12 +90,16 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final networkModule = _$NetworkModule();
+    gh.factory<_i731.ErrorInterceptor>(() => _i731.ErrorInterceptor());
     gh.factory<_i144.ISecureStorageService>(() => _i916.SecureStorageService());
-    gh.factory<_i557.AuthInterceptor>(
-      () => _i557.AuthInterceptor(gh<_i144.ISecureStorageService>()),
+    gh.factory<_i976.AuthInterceptor>(
+      () => _i976.AuthInterceptor(gh<_i144.ISecureStorageService>()),
     );
     gh.lazySingleton<_i361.Dio>(
-      () => networkModule.dio(gh<_i557.AuthInterceptor>()),
+      () => networkModule.dio(
+        gh<_i976.AuthInterceptor>(),
+        gh<_i731.ErrorInterceptor>(),
+      ),
     );
     gh.factory<_i94.AuthDatasource>(() => _i94.AuthDatasource(gh<_i361.Dio>()));
     gh.factory<_i1059.CompanyDatasource>(
@@ -115,8 +123,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i494.IAuthRepository>(
       () => _i65.AuthRepository(gh<_i94.AuthDatasource>()),
     );
-    gh.factory<_i952.HomeAdminCubit>(
-      () => _i952.HomeAdminCubit(gh<_i76.IDashboardRepository>()),
+    gh.factory<_i553.HomeAdminCubit>(
+      () => _i553.HomeAdminCubit(gh<_i76.IDashboardRepository>()),
     );
     gh.factory<_i193.AuthCubit>(
       () => _i193.AuthCubit(gh<_i494.IAuthRepository>()),
@@ -133,8 +141,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i934.ICompanyRepository>(
       () => _i570.CompanyRepository(gh<_i1059.CompanyDatasource>()),
     );
-    gh.factory<_i573.EditUserCubit>(
-      () => _i573.EditUserCubit(gh<_i471.IUserRepository>()),
+    gh.factory<_i83.EditUserCubit>(
+      () => _i83.EditUserCubit(gh<_i471.IUserRepository>()),
+    );
+    gh.factory<_i575.UserAddCubit>(
+      () => _i575.UserAddCubit(gh<_i471.IUserRepository>()),
+    );
+    gh.factory<_i853.UserManagementCubit>(
+      () => _i853.UserManagementCubit(gh<_i471.IUserRepository>()),
     );
     gh.factory<_i816.GetProductListUc>(
       () => _i816.GetProductListUc(gh<_i621.IProductRepository>()),

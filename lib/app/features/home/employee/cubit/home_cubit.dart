@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:easy_stock/app/core/config/injection.dart';
+import 'package:easy_stock/app/core/cubit/app_cubit.dart';
 import 'package:easy_stock/app/features/stock/data/model/stock_movement.dart';
 import 'package:easy_stock/app/features/stock/domain/repositories/i_stock_reposittory.dart';
 import 'package:injectable/injectable.dart';
@@ -17,6 +19,8 @@ class HomeCubit extends Cubit<HomeState> {
 
   void initData() {
     emit(state.copyWith(loading: true, errorMessage: null));
+    final appCubit = getIt<AppCubit>();
+    appCubit.loadUser();
     getStockMovements();
     emit(state.copyWith(loading: false));
   }

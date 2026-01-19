@@ -6,4 +6,5 @@ abstract class IUserRepository {
     required int userId,
     required Map<String, dynamic> payload,
   });
+  Future<Result> getUsersList();
 }

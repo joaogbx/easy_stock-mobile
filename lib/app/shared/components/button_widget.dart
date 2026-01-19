@@ -13,6 +13,8 @@ class ButtonWidget extends StatelessWidget {
   final bool loading;
   final Color? color;
   final EdgeInsetsGeometry? padding;
+  final double? width;
+  final double? height;
 
   const ButtonWidget({
     super.key,
@@ -21,34 +23,43 @@ class ButtonWidget extends StatelessWidget {
     this.loading = false,
     this.color,
     this.padding,
+    this.width,
+    this.height,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: padding ?? EdgeInsetsGeometry.all(0),
-      child: ElevatedButton(
-        // Ação a ser executada
-        onPressed: onPressed,
+    return SizedBox(
+      height: height,
+      width: width,
+      child: Padding(
+        padding: padding ?? EdgeInsetsGeometry.all(0),
+        child: ElevatedButton(
+          // Ação a ser executada
+          onPressed: onPressed,
 
-        // Estilo visual global definido aqui
-        style: ElevatedButton.styleFrom(
-          backgroundColor: color ?? ColorsPallete.primaryPurple,
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+          // Estilo visual global definido aqui
+          style: ElevatedButton.styleFrom(
+            backgroundColor: color ?? ColorsPallete.primaryPurple,
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
-        ),
-        child: loading
-            ? const CircularProgressIndicator()
-            : Text(
-                text,
-                style: const TextStyle(
+          child: loading
+              ? const CircularProgressIndicator(
                   color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  strokeWidth: 2,
+                )
+              : Text(
+                  text,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
-              ),
+        ),
       ),
     );
   }

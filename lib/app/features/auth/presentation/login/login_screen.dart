@@ -1,6 +1,7 @@
 import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/core/cubit/app_cubit.dart';
 import 'package:easy_stock/app/core/infra/storage/secure_storage_service.dart';
+import 'package:easy_stock/app/core/routes/app_routes.dart';
 import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
 import 'package:easy_stock/app/features/home/admin/presentation/home_admin_screen.dart';
 import 'package:easy_stock/app/features/company/presentation/screens/create_company/create_company_screen.dart';
@@ -46,28 +47,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 if (_appCubit.state.userlogged != null) {
                   if (_appCubit.state.userlogged?.companyId != null) {
-                    showSnackBarFeedback(
-                      context: context,
-                      message: 'Usuário logado com sucesso',
-                      feedbackType: FeedbackType.success,
-                    );
-
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => HomeEmployee(
-                          onToggle: () => null,
-                        ),
-                      ),
-                      (Route<dynamic> route) => false,
-                    );
-                  } else {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => CreateCompanyScreen(
-                          user: _appCubit.state.userlogged!,
-                        ),
-                      ),
-                      (Route<dynamic> route) => false,
+                    AppRoutes.router.go(
+                      AppRoutes.createCompany,
+                      extra: _appCubit.state.userlogged,
                     );
                   }
                 }
@@ -165,8 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         const SizedBox(height: 25),
-                        const SizedBox(height: 15),
-                        const SizedBox(height: 40),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -179,11 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => CreateAccountScreen(),
-                                  ),
-                                );
+                                AppRoutes.router.push(AppRoutes.createUser);
                               },
                               child: const Text(
                                 'Crie agora',

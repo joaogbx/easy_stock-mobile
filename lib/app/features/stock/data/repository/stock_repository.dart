@@ -34,9 +34,7 @@ class StockRepository implements IStockRepository {
 
       return Result.success(StockMovement.fromJson(response['data']));
     } on DioException catch (error) {
-      return Result.error(
-        'Erro ao registrar movimentação, ${error.response?.data['message'] ?? error.message}',
-      );
+      return Result.error(error.message);
     } catch (error) {
       return Result.error(
         'Erro desconhecido ao registrar movimentação, $error',
@@ -55,10 +53,7 @@ class StockRepository implements IStockRepository {
 
       return Result.success(stockMovements);
     } on DioException catch (error) {
-      final errorMessage = error.response?.data?['error']?['message'];
-      return Result.error(
-        errorMessage ?? 'Erro ao buscar histórico de movimentações',
-      );
+      return Result.error(error.message);
     } catch (error) {
       return Result.error(
         'Erro desconhecido ao buscar histórico de movimentações: $error',

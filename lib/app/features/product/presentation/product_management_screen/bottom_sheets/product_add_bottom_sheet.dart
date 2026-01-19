@@ -1,4 +1,5 @@
 import 'package:easy_stock/app/features/product/data/model/product_model.dart';
+import 'package:easy_stock/app/shared/components/base_bottom_sheet.dart';
 import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
 import 'package:easy_stock/app/shared/components/input_select.dart';
 import 'package:easy_stock/app/shared/theme/colors_pallete.dart';
@@ -28,39 +29,38 @@ class _ProductAddBottomSheetState extends State<ProductAddBottomSheet> {
     final state = context.watch<ProductManagementCubit>().state;
     final loading = state.loading;
 
-    return BlocListener<ProductManagementCubit, ProductManagementState>(
-      listenWhen: (previous, current) => previous.loading && !current.loading,
-      listener: (context, state) {
-        if (state.errorMessage == null) {
-          Navigator.of(context).pop(true);
+    return BaseBottomSheet(
+      padding: EdgeInsets.only(
+        top: 20,
+        left: 20,
+        right: 20,
+        bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+      ),
+      child: BlocListener<ProductManagementCubit, ProductManagementState>(
+        listenWhen: (previous, current) => previous.loading && !current.loading,
+        listener: (context, state) {
+          if (state.errorMessage == null) {
+            Navigator.of(context).pop(true);
 
-          showSnackBarFeedback(
-            context: context,
-            message: 'Produto adicionado com sucesso!',
-            feedbackType: FeedbackType.success,
-          );
-          widget.refreshProducts();
-        } else {
-          Navigator.of(context).pop();
-          showSnackBarFeedback(
-            context: context,
-            message: state.errorMessage!,
-            feedbackType: FeedbackType.error,
-          );
-        }
-      },
-      child: Form(
-        key: _formKey,
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 20,
-            left: 20,
-            right: 20,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-          ),
+            showSnackBarFeedback(
+              context: context,
+              message: 'Produto adicionado com sucesso!',
+              feedbackType: FeedbackType.success,
+            );
+            widget.refreshProducts();
+          } else {
+            Navigator.of(context).pop();
+            showSnackBarFeedback(
+              context: context,
+              message: state.errorMessage!,
+              feedbackType: FeedbackType.error,
+            );
+          }
+        },
+        child: Form(
+          key: _formKey,
           child: SingleChildScrollView(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Text(

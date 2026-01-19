@@ -1,4 +1,5 @@
 import 'package:easy_stock/app/features/user/data/model/user_model.dart';
+import 'package:easy_stock/app/shared/components/button_widget.dart';
 import 'package:easy_stock/app/shared/theme/colors_pallete.dart'; // Import da Paleta
 import 'package:flutter/material.dart';
 
@@ -84,26 +85,6 @@ class CompanyExplicationStep extends StatelessWidget {
           const Spacer(flex: 2),
 
           // Botão (O ThemeData já deve definir o fundo como roxo)
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: ElevatedButton(
-              onPressed: () {
-                createCompany();
-              },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                child: Text(
-                  'SIM, CONFIRMAR E COMEÇAR',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ),
-
           const Spacer(flex: 1),
         ],
       ),

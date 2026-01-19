@@ -41,18 +41,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               message: state.errorMessage!,
             );
           }
-
-          if (state.user != null) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) {
-                  return CreateCompanyScreen(
-                    user: state.user!,
-                  );
-                },
-              ),
-            );
-          }
         },
         child: BlocBuilder<CreateUserCubit, CreateUserState>(
           builder: (context, state) {
@@ -147,6 +135,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         ElevatedButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
+                              FocusManager.instance.primaryFocus?.unfocus();
                               await context.read<CreateUserCubit>().createUser(
                                 email: emailController.text,
                                 password: passwordController.text,

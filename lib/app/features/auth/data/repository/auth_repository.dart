@@ -25,9 +25,7 @@ class AuthRepository implements IAuthRepository {
 
       return Result.success(User.fromMap(response['data']));
     } on DioException catch (error) {
-      return Result.error(
-        error.response?.data['error'] ?? 'Erro ao autenticar usuário',
-      );
+      return Result.error(error.message);
     } catch (error) {
       return Result.error('Erro ao autenticar: $error');
     }
@@ -40,8 +38,7 @@ class AuthRepository implements IAuthRepository {
 
       return Result.success(User.fromMap(response['data']));
     } on DioException catch (error) {
-      logger.e(error);
-      return Result.error('Erro ao Criar usuário, ${error.response}');
+      return Result.error(error.message);
     } catch (error) {
       return Result.error('Erro ao Criar usuário, $error');
     }
@@ -54,7 +51,7 @@ class AuthRepository implements IAuthRepository {
 
       return Result.success(User.fromMap(response['data']));
     } on DioException catch (error) {
-      return Result.error(error.response.toString());
+      return Result.error(error.message);
     } catch (error) {
       return Result.error(error.toString());
     }

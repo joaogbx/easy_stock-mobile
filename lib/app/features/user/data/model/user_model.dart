@@ -26,11 +26,12 @@ class User {
   }) : movements = movements ?? [];
 
   factory User.fromJson(Map<String, dynamic> json) {
+    print('passou aqui user model');
     return User(
       id: json['id'],
       name: json['name'],
       email: json['email'],
-      role: json['role'],
+      role: json['role'] == 'ADMIN' ? 'Administrador' : 'Funcionário',
       createdAt: DateTime.parse(json['created_at']),
       companyId: json['company_id'],
       company: json['company'] != null
@@ -90,7 +91,7 @@ class User {
       id: map['id'] as int,
       name: map['name'] as String,
       email: map['email'] as String,
-      role: map['role'] as String,
+      role: map['role'] == 'ADMIN' ? 'Administrador' : 'Funcionário',
       createdAt: DateTime.parse(map['created_at'] as String),
       companyId: map['company_id'] != null ? map['company_id'] as int : null,
       company: map['company'] != null

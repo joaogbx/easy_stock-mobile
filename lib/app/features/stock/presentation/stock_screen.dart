@@ -84,13 +84,7 @@ class _StockScreenState extends State<StockScreen> {
                               'Unidade: ${product.measureUnit}',
                               style: const TextStyle(color: textoSecundario),
                             ),
-                            trailing: const Icon(
-                              Icons.keyboard_arrow_right,
-                              color: textoSecundario,
-                            ),
-                            onTap: () {
-                              // Ação para ver detalhes do produto
-                            },
+                            onTap: () => null,
                           );
                         },
                       ),

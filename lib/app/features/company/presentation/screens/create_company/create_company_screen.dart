@@ -2,6 +2,7 @@ import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/core/cubit/app_cubit.dart';
 import 'package:easy_stock/app/core/routes/app_routes.dart';
 import 'package:easy_stock/app/features/user/data/model/user_model.dart';
+import 'package:easy_stock/app/shared/components/button_widget.dart';
 import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
 import 'package:easy_stock/app/shared/theme/colors_pallete.dart';
 import 'package:easy_stock/app/features/home/admin/presentation/home_admin_screen.dart';
@@ -18,9 +19,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class CreateCompanyScreen extends StatefulWidget {
-  const CreateCompanyScreen({super.key, required this.user});
-
-  final User user;
+  const CreateCompanyScreen({super.key});
 
   @override
   State<CreateCompanyScreen> createState() => _CreateCompanyScreenState();
@@ -28,6 +27,7 @@ class CreateCompanyScreen extends StatefulWidget {
 
 class _CreateCompanyScreenState extends State<CreateCompanyScreen> {
   final _cubit = getIt<CreateCompanyCubit>();
+  final _appCubit = getIt<AppCubit>();
   final userLogged = getIt<AppCubit>().state.userlogged;
   final PageController _pageController = PageController();
   int _currentIndex = 0;
@@ -48,6 +48,7 @@ class _CreateCompanyScreenState extends State<CreateCompanyScreen> {
         },
         child: BlocBuilder<CreateCompanyCubit, CreateCompanyState>(
           builder: (context, state) {
+            bool loading = state.loading;
             return Scaffold(
               backgroundColor: const Color.fromARGB(255, 20, 20, 20),
               body: Padding(
@@ -69,16 +70,17 @@ class _CreateCompanyScreenState extends State<CreateCompanyScreen> {
                         children: [
                           CompanyWelcomeStep(
                             pageController: _pageController,
-                            userName: widget.user.name,
+                            userName: userLogged!.name,
                           ),
                           CompanyDetailsStep(
                             onNameChanged: (value) {
                               companyName = value;
+                              setState(() {});
                             },
                           ),
                           CompanyExplicationStep(
                             companyName: companyName,
-                            user: widget.user,
+                            user: userLogged!,
                             pageController: _pageController,
                             createCompany: () {
                               context.read<CreateCompanyCubit>().createCompany(
@@ -95,13 +97,7 @@ class _CreateCompanyScreenState extends State<CreateCompanyScreen> {
                         _currentIndex == 0
                             ? TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                      builder: (context) => LoginScreen(),
-                                    ),
-                                    (Route<dynamic> route) => false,
-                                  );
-                                  // ação ao clicar em "Mais tarde"
+                                  _appCubit.logout();
                                 },
                                 child: Text(
                                   'Criar mais tarde',
@@ -125,20 +121,46 @@ class _CreateCompanyScreenState extends State<CreateCompanyScreen> {
                                 ),
                               ),
                         Spacer(),
-                        if (_currentIndex != 2)
-                          IconButton(
-                            onPressed: () {
-                              _pageController.nextPage(
-                                duration: Duration(milliseconds: 200),
-                                curve: Curves.linear,
-                              );
-                            },
+                        _currentIndex != 2
+                            ? IconButton(
+                                onPressed: () {
+                                  if (arrowButtonActiveted()) {
+                                    _pageController.nextPage(
+                                      duration: Duration(milliseconds: 200),
+                                      curve: Curves.linear,
+                                    );
+                                  } else {
+                                    showSnackBarFeedback(
+                                      context: context,
+                                      message: 'Preencha o nome da companhia',
+                                      feedbackType: FeedbackType.error,
+                                    );
+                                  }
+                                },
 
-                            icon: Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              color: ColorsPallete.primaryPurple,
-                            ),
-                          ),
+                                icon: Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  color: arrowButtonActiveted()
+                                      ? ColorsPallete.primaryPurple
+                                      : Colors.grey,
+                                ),
+                              )
+                            : ButtonWidget(
+                                height: 45,
+                                width: 190,
+                                loading: loading,
+                                padding: EdgeInsets.only(left: 55),
+                                onPressed: () {
+                                  context
+                                      .read<CreateCompanyCubit>()
+                                      .createCompany(
+                                        companyName: companyName,
+                                        onSuccessCreateCompany:
+                                            onSuccessCreateCompany,
+                                      );
+                                },
+                                text: 'CONFIRMAR',
+                              ),
                       ],
                     ),
                   ],
@@ -149,6 +171,14 @@ class _CreateCompanyScreenState extends State<CreateCompanyScreen> {
         ),
       ),
     );
+  }
+
+  bool arrowButtonActiveted() {
+    if (_currentIndex == 1 && companyName.isEmpty) {
+      return false;
+    }
+    FocusManager.instance.primaryFocus?.unfocus();
+    return true;
   }
 
   void onSuccessCreateCompany() {

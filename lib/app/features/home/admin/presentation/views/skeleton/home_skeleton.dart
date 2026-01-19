@@ -3,6 +3,7 @@
 import 'package:easy_stock/app/features/home/admin/presentation/components/skeleton_stat_card.dart';
 import 'package:easy_stock/app/features/home/admin/presentation/components/skeleton_card_action.dart';
 import 'package:easy_stock/app/features/home/admin/presentation/components/skeleton_register_button.dart';
+import 'package:easy_stock/app/features/home/admin/presentation/views/skeleton/skeleton_dashboard_view.dart';
 import 'package:flutter/material.dart';
 // Importe aqui onde estão suas classes já criadas:
 // import 'package:easy_stock/.../skeleton_dashboard_view.dart';

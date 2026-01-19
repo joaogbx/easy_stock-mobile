@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:easy_stock/app/core/constants.dart';
+import 'package:easy_stock/application.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
@@ -12,7 +12,13 @@ class UserDatasource {
   Future<Map<String, dynamic>> createUser({
     required Map<String, dynamic> payload,
   }) async {
-    final result = await _dioHttp.post('user', data: payload);
+    final result = await _dioHttp.post('/user', data: payload);
+
+    return jsonDecode(result.toString());
+  }
+
+  Future<Map<String, dynamic>> getUsersList() async {
+    final result = await _dioHttp.get('/user');
 
     return jsonDecode(result.toString());
   }

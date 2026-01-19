@@ -1,6 +1,7 @@
 import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/features/product/data/model/product_model.dart';
 import 'package:easy_stock/app/core/enums/register_mode.dart';
+import 'package:easy_stock/app/shared/components/base_bottom_sheet.dart';
 import 'package:easy_stock/app/shared/components/button_widget.dart';
 import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
 import 'package:easy_stock/app/shared/components/drag_handle.dart';
@@ -41,93 +42,85 @@ class _RegisterMovementState extends State<RegisterMovementBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => cubit,
-      child: BlocBuilder<RegisterMovementCubit, RegisterMovementState>(
-        builder: (context, state) {
-          final products = state.products;
-          bool loading = state.loading;
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              DragHandle(),
-
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 20,
-                ),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-
-                    children: [
-                      Text(
-                        'Detalhes da $type',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+    return BaseBottomSheet(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom + 40,
+        left: 20,
+        right: 20,
+      ),
+      child: BlocProvider(
+        create: (context) => cubit,
+        child: BlocBuilder<RegisterMovementCubit, RegisterMovementState>(
+          builder: (context, state) {
+            final products = state.products;
+            bool loading = state.loading;
+            return Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                        Text(
+                          'Detalhes da $type',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 20),
-                      CustomSelectInput<Product>(
-                        labelText: 'Selecione um produto',
-                        items: products,
-                        value: _productSelected,
-                        itemLabelBuilder: (product) {
-                          return product.name;
-                        },
-                        onItemSelected: (product) {
-                          _productSelected = product;
-                          setState(() {});
-                        },
-                        prefixIcon: Icons.abc,
-                      ),
-                      SizedBox(height: 16),
-                      TextFormField(
-                        enabled: _productSelected != null,
-                        controller: _quantityController,
-                        decoration: InputDecoration(
-                          labelText: 'Quantidade',
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.numbers),
+                        SizedBox(height: 20),
+                        CustomSelectInput<Product>(
+                          labelText: 'Selecione um produto',
+                          items: products,
+                          value: _productSelected,
+                          itemLabelBuilder: (product) {
+                            return product.name;
+                          },
+                          onItemSelected: (product) {
+                            _productSelected = product;
+                            setState(() {});
+                          },
+                          prefixIcon: Icons.abc,
                         ),
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (widget.registerMode == RegisterMode.stockOut) {
-                            return validatorStockOut(value);
-                          } else {
-                            return validatorStockIn(value);
-                          }
-                        },
-                      ),
-                      SizedBox(height: 16),
+                        SizedBox(height: 16),
+                        TextFormField(
+                          enabled: _productSelected != null,
+                          controller: _quantityController,
+                          decoration: InputDecoration(
+                            labelText: 'Quantidade',
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.numbers),
+                          ),
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (widget.registerMode == RegisterMode.stockOut) {
+                              return validatorStockOut(value);
+                            } else {
+                              return validatorStockIn(value);
+                            }
+                          },
+                        ),
+                        SizedBox(height: 16),
 
-                      ButtonWidget(
-                        padding: EdgeInsets.only(bottom: 40),
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            cubit.submitMovementForm(
-                              _productSelected!.id,
-                              _quantityController.text,
-                              onSuccess,
-                              onError,
-                              widget.registerMode,
-                            );
-                          }
-                        },
-                        text: 'CONFIRMAR $type',
-                        loading: loading,
-                        color: _buttonColor,
-                      ),
-                    ],
+                  ButtonWidget(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        cubit.submitMovementForm(
+                          _productSelected!.id,
+                          _quantityController.text,
+                          onSuccess,
+                          onError,
+                          widget.registerMode,
+                        );
+                      }
+                    },
+                    text: 'CONFIRMAR $type',
+                    loading: loading,
+                    color: _buttonColor,
                   ),
-                ),
+                ],
               ),
-            ],
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

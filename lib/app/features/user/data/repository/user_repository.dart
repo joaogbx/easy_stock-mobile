@@ -17,9 +17,26 @@ class UserRepository implements IUserRepository {
 
       return Result.success(User.fromMap(response['data']['user']));
     } on DioException catch (error) {
-      return Result.error('Erro ao Criar usuário, ${error.response}');
+      return Result.error(error.message);
     } catch (error) {
       return Result.error('Erro ao Criar usuário, $error');
+    }
+  }
+
+  @override
+  Future<Result> getUsersList() async {
+    try {
+      final response = await _userDatasource.getUsersList();
+
+      final List<User> users = (response['data'] as List)
+          .map((user) => User.fromJson(user as Map<String, dynamic>))
+          .toList();
+
+      return Result.success(users);
+    } on DioException catch (error) {
+      return Result.error('Erro ao buscar usuário, ${error.response}');
+    } catch (error) {
+      return Result.error('Erro ao buscar usuário, $error');
     }
   }
 

@@ -26,7 +26,7 @@ class HistoricalCubit extends Cubit<HistoricalState> {
   void getAllStockMovements({String? startDate, String? endDate}) async {
     emit(state.copyWith(loading: true));
     final Map<String, dynamic> query = {
-      'mine': true,
+      'mine': false,
     };
     if (startDate != null && endDate != null) {
       query['startDate'] = startDate;

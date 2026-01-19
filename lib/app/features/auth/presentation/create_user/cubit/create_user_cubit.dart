@@ -35,18 +35,21 @@ class CreateUserCubit extends Cubit<CreateUserState> {
 
     final result = await _iAuthRepository.registerUser(payload: payload);
 
+    if (result.isSuccess) {
+      final appCubit = getIt<AppCubit>();
+      final User user = result.data!;
+
+      appCubit.setUserLogged(user: user);
+    }
+
     if (result.isError) {
       emit(state.copyWith(errorMessage: result.error, loading: false));
 
       print(state.errorMessage);
-
-      return false;
     }
 
     emit(
       state.copyWith(loading: false, user: result.data),
     );
-
-    return true;
   }
 }

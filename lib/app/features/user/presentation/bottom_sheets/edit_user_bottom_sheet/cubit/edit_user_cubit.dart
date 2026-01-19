@@ -21,9 +21,8 @@ class EditUserCubit extends Cubit<EditUserState> {
     String? email,
     required Function() onSuccess,
   }) async {
-    emit(state.copyWith(errorMessage: null));
+    emit(state.copyWith(errorMessage: null, loading: true));
     final userLogged = getIt<AppCubit>().state.userlogged;
-    emit(state.copyWith(loading: true));
 
     final data = {'name': name, 'email': email};
 

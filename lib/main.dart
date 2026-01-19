@@ -8,7 +8,7 @@ import 'package:easy_stock/app/core/network/network_module.dart';
 import 'package:easy_stock/app/core/routes/app_routes.dart';
 import 'package:easy_stock/app/features/company/presentation/screens/create_company/steps/company_welcome_step.dart';
 import 'package:easy_stock/app/shared/theme/theme.dart';
-import 'package:easy_stock/app/features/auth/utils/auth_interceptor.dart';
+import 'package:easy_stock/app/core/utils/auth_interceptor.dart';
 import 'package:easy_stock/app/features/home/admin/presentation/home_admin_screen.dart';
 import 'package:easy_stock/app/features/home/employee/presentation/home_employee.dart';
 import 'package:easy_stock/app/features/auth/presentation/login/login_screen.dart';

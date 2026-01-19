@@ -23,11 +23,7 @@ class DashboardRepository implements IDashboardRepository {
 
       return Result.success(dashboardData);
     } on DioException catch (error) {
-      final errorMessage = error.response?.data?['message'];
-
-      return Result.error(
-        errorMessage?.toString() ?? 'Erro ao buscar dados do dashboard',
-      );
+      return Result.error(error.message);
     } catch (error) {
       return Result.error(
         'Erro desconhecido ao carregar dashboard: $error',

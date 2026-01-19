@@ -2,12 +2,16 @@ import 'dart:async';
 
 import 'package:easy_stock/app/core/config/injection.dart';
 import 'package:easy_stock/app/core/cubit/app_cubit.dart';
+import 'package:easy_stock/app/features/auth/presentation/create_user/create_account_screen.dart';
+import 'package:easy_stock/app/features/company/presentation/screens/create_company/create_company_screen.dart';
 import 'package:easy_stock/app/features/home/admin/presentation/home_admin_screen.dart';
 import 'package:easy_stock/app/features/home/employee/presentation/home_employee.dart';
 import 'package:easy_stock/app/features/product/presentation/product_management_screen/product_management_screen.dart';
+import 'package:easy_stock/app/features/stock/presentation/movements_screen/movements_screen.dart';
 import 'package:easy_stock/app/features/stock/presentation/stock_screen.dart';
+import 'package:easy_stock/app/features/user/data/model/user_model.dart';
+import 'package:easy_stock/app/features/user/presentation/user_management_screen.dart';
 import 'package:easy_stock/app/shared/components/dialog_feedback.dart';
-import 'package:easy_stock/app/shared/screen/movements_screen/movements_screen.dart';
 import 'package:easy_stock/app/shared/screen/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
@@ -32,14 +36,17 @@ class GoRouterRefreshStream extends ChangeNotifier {
 
 class AppRoutes {
   static const String splash = '/';
-  static const String login = '/login';
   static const String homeAdmin = '/home-admin';
+  static const String login = '/login';
   static const String homeEmploye = '/home-employe';
+  static const String createCompany = '/create-company';
+  static const String createUser = '/create-user';
 
   // IMPORTANTE: Rotas filhas no GoRouter não devem começar com "/" se forem relativas
   static const String movements = '/movements';
   static const String managementProduct = '/management-product';
   static const String productStock = '/product-stock';
+  static const String managementUsers = '/users';
 
   static final router = GoRouter(
     initialLocation: splash,
@@ -48,11 +55,26 @@ class AppRoutes {
       final appState = getIt<AppCubit>().state;
 
       if (appState.loading) return splash;
-      if (appState.userlogged == null) return login;
+
+      if (appState.userlogged == null) {
+        bool isLogin = state.matchedLocation == login;
+        bool isCreateUser = state.matchedLocation == createUser;
+
+        return (isLogin || isCreateUser) ? null : login;
+      }
+
+      if (appState.userlogged?.companyId == null &&
+          state.matchedLocation != createCompany) {
+        return createCompany;
+      }
 
       // Se logado e tentando ir para Splash ou Login, redireciona para a Home correta
-      if (state.matchedLocation == splash || state.matchedLocation == login) {
-        return appState.userlogged?.role == 'ADMIN' ? homeAdmin : homeEmploye;
+      if (state.matchedLocation == splash ||
+          state.matchedLocation == login ||
+          state.matchedLocation == createCompany) {
+        return appState.userlogged?.role == 'Administrador'
+            ? homeAdmin
+            : homeEmploye;
       }
 
       return null;
@@ -60,13 +82,13 @@ class AppRoutes {
     routes: [
       GoRoute(
         path: splash,
-        builder: (context, state) => const MyCustomSplashScreen(),
+        builder: (context, state) => const SplashScreen(),
       ),
       GoRoute(path: login, builder: (context, state) => const LoginScreen()),
       GoRoute(path: homeAdmin, builder: (context, state) => const HomeAdmin()),
       GoRoute(
         path: homeEmploye,
-        builder: (context, state) => HomeEmployee(onToggle: () => null),
+        builder: (context, state) => HomeEmployeeSkeleton(),
       ),
 
       // COLOQUE AS ROTAS AQUI FORA (Nível superior)
@@ -75,12 +97,26 @@ class AppRoutes {
         builder: (context, state) => const HistoricalMovementScreen(),
       ),
       GoRoute(
+        path: createCompany,
+        builder: (context, state) {
+          return CreateCompanyScreen();
+        },
+      ),
+      GoRoute(
         path: managementProduct,
         builder: (context, state) => ProductManagementScreen(),
       ),
       GoRoute(
         path: productStock,
         builder: (context, state) => StockScreen(),
+      ),
+      GoRoute(
+        path: managementUsers,
+        builder: (context, state) => UserManagementScreen(),
+      ),
+      GoRoute(
+        path: createUser,
+        builder: (context, state) => CreateAccountScreen(),
       ),
     ],
   );

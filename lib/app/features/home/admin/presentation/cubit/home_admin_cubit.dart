@@ -1,7 +1,8 @@
-import 'dart:ffi';
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
+import 'package:easy_stock/app/core/config/injection.dart';
+import 'package:easy_stock/app/core/cubit/app_cubit.dart';
 import 'package:easy_stock/app/features/home/admin/data/model/dashboard_model.dart';
 import 'package:easy_stock/app/features/home/admin/domain/i_dashboard_repository.dart';
 import 'package:injectable/injectable.dart';
@@ -21,6 +22,10 @@ class HomeAdminCubit extends Cubit<HomeAdminState> {
 
   void initData() async {
     emit(state.copyWith(loading: true));
+
+    final _appCubit = getIt<AppCubit>();
+    _appCubit.loadUser();
+
     final result = await _dashboardRepository.getDashboardData();
 
     if (result.isError) {
