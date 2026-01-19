@@ -130,10 +130,6 @@ O app consome uma API REST hospedada em:
 - **Validação** de formulários
 - **Tratamento** de erros de rede
 
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
 ## 👥 Contribuição
 
 1. Fork o projeto
@@ -144,8 +140,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ## 📞 Suporte
 
-Para suporte, entre em contato através do email: [seu-email@exemplo.com]
+Para suporte, entre em contato através do email: joaogabriel.siqueira09@gmail.com
 
 ---
 
-Desenvolvido com ❤️ em Flutter
