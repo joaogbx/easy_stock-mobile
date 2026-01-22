@@ -234,13 +234,6 @@ class _HomeAdminState extends State<HomeAdmin> {
                                   AppRoutes.router.push(
                                     AppRoutes.managementProduct,
                                   );
-                                  //Navigator.push(
-                                  //  context,
-                                  //  MaterialPageRoute(
-                                  //    allowSnapshotting: false,
-                                  //    builder: (context) => ProductManagementScreen(),
-                                  //  ),
-                                  //);
                                 },
                               ),
                               const SizedBox(height: 20),
